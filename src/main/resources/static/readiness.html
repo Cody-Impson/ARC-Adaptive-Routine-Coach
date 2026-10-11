@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ARC Readiness Check</title>
+</head>
+
+<body>
+
+<h1>ARC Readiness Check</h1>
+
+<label>Sleep Quality (1-10):</label>
+<input id="sleep" type="number" min="1" max="10">
+<br><br>
+
+<label>Energy Level (1-10):</label>
+<input id="energy" type="number" min="1" max="10">
+<br><br>
+
+<label>Soreness (1-10):</label>
+<input id="soreness" type="number" min="1" max="10">
+<br><br>
+
+<label>Stress (1-10):</label>
+<input id="stress" type="number" min="1" max="10">
+<br><br>
+
+<label>Motivation (1-10):</label>
+<input id="motivation" type="number" min="1" max="10">
+<br><br>
+
+<label>Any pain or discomfort?</label>
+<select id="pain" onchange="showPainBox()">
+    <option value="No">No</option>
+    <option value="Yes">Yes</option>
+</select>
+
+<input id="painDetails"
+       type="text"
+       placeholder="Describe pain or discomfort"
+       style="display:none;">
+<br><br>
+
+<label>Anything to share with ORIN?</label>
+<br>
+<textarea id="orinNotes"
+          rows="4"
+          cols="40"
+          placeholder="Tell ORIN anything that may affect today's workout"></textarea>
+<br><br>
+
+<button id="save">Save Readiness</button>
+
+<p id="message"></p>
+
+
+<script>
+
+    function showPainBox() {
+
+        let pain = document.getElementById("pain").value;
+        let painDetails = document.getElementById("painDetails");
+
+        if (pain == "Yes") {
+            painDetails.style.display = "inline";
+        } else {
+            painDetails.style.display = "none";
+        }
+    }
+
+
+    document.getElementById("save").onclick = function() {
+
+        let sleep = document.getElementById("sleep").value;
+        let energy = document.getElementById("energy").value;
+        let soreness = document.getElementById("soreness").value;
+        let stress = document.getElementById("stress").value;
+        let motivation = document.getElementById("motivation").value;
+        let pain = document.getElementById("pain").value;
+        let orinNotes = document.getElementById("orinNotes").value;
+
+        let painDetails = "";
+
+        if (pain == "Yes") {
+            painDetails = document.getElementById("painDetails").value;
+        }
+        let readiness = {
+            sleep: sleep,
+            energy: energy,
+            soreness: soreness,
+            stress: stress,
+            motivation: motivation,
+            pain: pain,
+            painDetails: painDetails,
+            orinNotes: orinNotes};
+
+        document.getElementById("message").innerHTML =
+            "Sleep: " + sleep + "/10<br>" +
+            "Energy: " + energy + "/10<br>" +
+            "Soreness: " + soreness + "/10<br>" +
+            "Stress: " + stress + "/10<br>" +
+            "Motivation: " + motivation + "/10<br>" +
+            "Pain: " + pain + "<br>" +
+            "Pain Details: " + painDetails + "<br>" +
+            "Notes for ORIN: " + orinNotes;
+
+        fetch("/readiness", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(readiness)})
+            .then(response => response.text())
+            .then(data => {console.log(data);
+            });};
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ARC Profile</title>
+</head>
+<body>
+
+<h1>ARC User Profile</h1>
+
+<label>Name:</label>
+<input id="name" type="text">
+<br><br>
+
+<label>Email:</label>
+<input id="email" type="text">
+<br><br>
+
+<label>Password:</label>
+<input id="password" type="password">
+<br><br>
+
+<label>Age:</label>
+<input id="age" type="number">
+<br><br>
+
+<label>Gender:</label>
+<select id="gender">
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+    <option value="Prefer not to say">Other</option>
+</select>
+<br><br>
+
+<label>Height:</label>
+<input id="feet" type="number" placeholder="Feet">
+<input id="inches" type="number" placeholder="Inches">
+<br><br>
+
+<label>Weight:</label>
+<input id="weight" type="number">
+<br><br>
+
+<label>Goal:</label>
+    <select id="goal" onchange="showOtherGoal()">
+    <option value="Lose Weight">Lose Weight</option>
+    <option value="Build Muscle">Build Muscle</option>
+    <option value="Increase Strength">Increase Strength</option>
+    <option value="Improve Endurance">Improve Endurance</option>
+    <option value="General Fitness">General Fitness</option>
+    <option value="Get in Shape">Get in Shape</option>
+    <option value="Prefer not to say">Prefer not to say</option>
+    <option value="Other">Other</option>
+</select>
+
+<input id="otherGoal"
+       type="text"
+       placeholder="Type Your Goal Here"
+       style="display:none;">
+
+<br><br>
+
+<button id="save">Save</button>
+
+<p id="message"></p>
+
+<script>
+document.getElementById("save").onclick = function() {
+    let name = document.getElementById('name').value;
+    let email = document.getElementById('email').value;
+    let password = document.getElementById('password').value;
+    let age = document.getElementById("age").value;
+    let gender = document.getElementById("gender").value;
+    let feet = document.getElementById("feet").value;
+    let inches = document.getElementById("inches").value;
+    let weight = document.getElementById("weight").value;
+    let goal = document.getElementById("goal").value;
+
+    if (goal == "Other") {
+        goal = document.getElementById("otherGoal").value;
+    }
+
+    let profile = {
+        name: name,
+        email: email,
+        password: password,
+        age: age,
+        gender: gender,
+        feet: feet,
+        inches: inches,
+        weight: weight,
+        goal: goal,
+    }
+
+    document.getElementById("message").innerHTML =
+        "Name: " + name + "<br>" +
+        "Email: " + email + "<br>" +
+        "Age: " + age + "<br>" +
+        "Gender: " + gender + "<br>" +
+        "Height: " + feet + " ft " + inches + " in<br>" +
+        "Weight: " + weight + "<br>" +
+        "Goal: " + goal;
+
+    fetch("/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(profile),
+    })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+        })
+};
+
+function showOtherGoal(){
+    let goal = document.getElementById("goal").value;
+    let otherGoal = document.getElementById("otherGoal");
+
+    if (goal == "Other") {
+        otherGoal.style.display = "inline";
+    } else {
+        otherGoal.style.display = "none";
+    }
+}
+
+</script>
+</body>
+</html>
