@@ -51,7 +51,7 @@
 <button id="save">Save Readiness</button>
 
 <p id="message"></p>
-
+<h3 id="recommendation"></h3>
 
 <script>
 
@@ -109,6 +109,7 @@
             body: JSON.stringify(readiness)})
             .then(response => response.text())
             .then(data => {console.log(data);
+                document.getElementById("recommendation").innerText = "Orin Recommendation: " + data;
             });};
 
 </script>

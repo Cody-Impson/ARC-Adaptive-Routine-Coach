@@ -27,6 +27,17 @@ public class ReadinessController {
         System.out.println("Pain Details: " + readiness.painDetails);
         System.out.println("ORIN Notes: " + readiness.orinNotes);
 
-        return "Readiness saved!";
+        String recommendation;
+        if ("Yes".equalsIgnoreCase(readiness.pain) || readiness.soreness >=8) {
+            recommendation = "Recover focused workout recommended with reduced intensity.";
+        } else if (readiness.sleep <= 4 || readiness.energy <= 4 || readiness.stress >= 8) {
+            recommendation = "Light workout recommended with reduced intensity.";
+        } else {
+            recommendation = "Normal workout recommended with normal intensity.";
+        }
+
+        System.out.println("Orin Recommendation: " + recommendation);
+
+        return recommendation;
     }
 }
