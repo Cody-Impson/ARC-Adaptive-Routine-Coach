@@ -28,12 +28,25 @@ public class ReadinessController {
         System.out.println("ORIN Notes: " + readiness.orinNotes);
 
         String recommendation;
-        if ("Yes".equalsIgnoreCase(readiness.pain) || readiness.soreness >=8) {
-            recommendation = "Recover focused workout recommended with reduced intensity.";
-        } else if (readiness.sleep <= 4 || readiness.energy <= 4 || readiness.stress >= 8) {
-            recommendation = "Light workout recommended with reduced intensity.";
-        } else {
-            recommendation = "Normal workout recommended with normal intensity.";
+
+        if ("Yes".equalsIgnoreCase(readiness.pain) || readiness.soreness >= 8) {
+            recommendation =
+                    "Status: RECOVERY\n" +
+                            "Intensity: 40%\n" +
+                            "Recommendation: Recovery-focused workout recommended. " +
+                            "Use lighter loads and avoid movements that increase discomfort.";
+        }
+        else if (readiness.sleep <= 4 || readiness.energy <= 4 || readiness.stress >= 8) {
+            recommendation =
+                    "Status: MODIFY\n" +
+                            "Intensity: 70%\n" +
+                            "Recommendation: Reduce workout intensity or volume and focus on recovery.";
+        }
+        else {
+            recommendation =
+                    "Status: READY\n" +
+                            "Intensity: 100%\n" +
+                            "Recommendation: Proceed with the planned workout at normal intensity.";
         }
 
         System.out.println("Orin Recommendation: " + recommendation);
