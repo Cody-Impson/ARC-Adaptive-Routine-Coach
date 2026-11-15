@@ -53,6 +53,7 @@ Before running ARC locally, make sure the computer has:
 
 -Java 21 installed
 -To verify Java is installed, open Command Prompt or PowerShell and run:
+            
             java -version
 -The displayed Java version should be Java 21.
 -Internet connection for the initial Maven dependency download
@@ -61,6 +62,7 @@ Before running ARC locally, make sure the computer has:
 **How to Download ARC from GitHub**
 
 -Go to the ARC GitHub repository:
+
     https://github.com/Cody-Impson/ARC-Adaptive-Routine-Coach
 -Select the green Code button.
 -Select Download ZIP.
@@ -71,22 +73,28 @@ Before running ARC locally, make sure the computer has:
 
 -First open PowerShell or Command Prompt.
 -For CMD Run:
+
     cd Downloads\ARC-Adaptive-Routine-Coach-main\ARC-Adaptive-Routine-Coach-main
   -then
+  
     .\mvnw.cmd spring-boot:run
 
 -For PowerShell Run:
+
     cd "$HOME\Downloads\ARC-Adaptive-Routine-Coach-main\ARC-Adaptive-Routine-Coach-main"
   -then
+  
     .\mvnw.cmd spring-boot:run
 
 -For IntelliJ Open and Run:
+
     ARC-Adaptive-Routine-Coach-main
 
 -Maven will download any required dependencies during the first run.
 -Wait until Spring Boot finishes starting.
 -Open a web browser.
 -Go to:
+
     http://localhost:8080
 -The ARC splash screen should appear.
 
@@ -231,14 +239,17 @@ Future development would replace this with a persistent production database.
 ARC is also deployed online using Railway.
 
 The live prototype can be accessed at:
+
     https://orin-arc.com
 
 The Railway deployment may enter a sleeping state during periods of inactivity. Visiting the site wakes the deployed application.
 
 The locally reproduced version of ARC is accessed at:
+
     http://localhost:8080
 
 The live Railway deployment is accessed at:
+
     https://orin-arc.com
 
 **Project Limitations**
@@ -275,7 +286,9 @@ Future versions of ARC could include:
 **Project Repository**
 
 GitHub:
+
     https://github.com/Cody-Impson/ARC-Adaptive-Routine-Coach
 
 Live ARC Prototype:
+
     https://orin-arc.com
