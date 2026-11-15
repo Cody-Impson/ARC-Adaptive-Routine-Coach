@@ -52,9 +52,9 @@ The current ARC prototype includes:
 Before running ARC locally, make sure the computer has:
 
 -Java 21 installed
-    -To verify Java is installed, open Command Prompt or PowerShell and run:
+-To verify Java is installed, open Command Prompt or PowerShell and run:
             java -version
-    -The displayed Java version should be Java 21.
+-The displayed Java version should be Java 21.
 -Internet connection for the initial Maven dependency download
 -A web browser such as Google Chrome, Microsoft Edge, or Firefox
 
