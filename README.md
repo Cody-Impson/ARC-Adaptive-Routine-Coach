@@ -75,21 +75,20 @@ Before running ARC locally, make sure the computer has:
 -For CMD Run:
 
     cd Downloads\ARC-Adaptive-Routine-Coach-main\ARC-Adaptive-Routine-Coach-main
-  -then
+-then
   
     .\mvnw.cmd spring-boot:run
 
 -For PowerShell Run:
 
     cd "$HOME\Downloads\ARC-Adaptive-Routine-Coach-main\ARC-Adaptive-Routine-Coach-main"
-  -then
+-then
   
     .\mvnw.cmd spring-boot:run
 
 -For IntelliJ Open and Run:
 
     ARC-Adaptive-Routine-Coach-main
-
 -Maven will download any required dependencies during the first run.
 -Wait until Spring Boot finishes starting.
 -Open a web browser.
