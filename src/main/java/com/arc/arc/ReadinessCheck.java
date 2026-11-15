@@ -12,11 +12,11 @@ public class ReadinessCheck {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    public int sleep;
-    public int energy;
-    public int soreness;
-    public int stress;
-    public int motivation;
+    public Integer sleep;
+    public Integer energy;
+    public Integer soreness;
+    public Integer stress;
+    public Integer motivation;
     public String pain;
     public String painDetails;
     public String orinNotes;

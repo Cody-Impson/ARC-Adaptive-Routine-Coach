@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARC - History</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        * { box-sizing:border-box; }
+
+        html, body {
+            margin:0;
+            background:#0e0f10;
+            font-family:"Montserrat", sans-serif;
+        }
+
+        body {
+            display:flex;
+            justify-content:center;
+        }
+
+        .app {
+            width:100%;
+            max-width:390px;
+            min-height:100vh;
+            padding:30px 22px 90px;
+            color:white;
+        }
+
+        h1 { margin:0; }
+
+        .subtitle {
+            color:#a5a5a7;
+            font-size:13px;
+            margin-top:5px;
+        }
+
+        .card {
+            margin-top:18px;
+            padding:18px;
+            border-radius:16px;
+            background:#202326;
+        }
+
+        .date {
+            color:#1cfb9e;
+            font-size:12px;
+            font-weight:600;
+        }
+
+        .title {
+            margin-top:8px;
+            font-size:18px;
+            font-weight:700;
+        }
+
+        .meta {
+            color:#a5a5a7;
+            font-size:12px;
+            margin-top:6px;
+        }
+
+        .bottom-nav {
+            position:fixed;
+            bottom:0;
+            width:100%;
+            max-width:390px;
+            height:64px;
+            background:#111315;
+            display:flex;
+            justify-content:space-around;
+            align-items:center;
+        }
+
+        .bottom-nav a {
+            color:#a5a5a7;
+            text-decoration:none;
+            font-size:11px;
+        }
+
+        .bottom-nav a.active {
+            color:#1cfb9e;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <h1>Training History</h1>
+    <div class="subtitle">Your recent ARC activity.</div>
+
+    <div class="card">
+        <div class="date">TODAY</div>
+        <div class="title">Upper Body Strength</div>
+        <div class="meta" id="latestSet">
+            Bench Press • Set completed
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="date">RECENT</div>
+        <div class="title">Readiness Check</div>
+        <div class="meta" id="readinessHistory">
+            No recent readiness result.
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="date">PREVIOUS</div>
+        <div class="title">Full Body Training</div>
+        <div class="meta">
+            6 exercises • 48 min
+        </div>
+    </div>
+
+</div>
+
+<div class="bottom-nav">
+    <a href="home.html">Home</a>
+    <a href="workout.html">Workouts</a>
+    <a href="orin.html">ORIN</a>
+    <a href="history.html" class="active">History</a>
+    <a href="profile.html">Profile</a>
+</div>
+
+<script>
+
+    const set = localStorage.getItem("arcLastCompletedSet");
+
+    if (set) {
+        const s = JSON.parse(set);
+
+        document.getElementById("latestSet").textContent =
+            s.exercise + " • " +
+            s.weight + " lb × " +
+            s.reps + " reps • RPE " +
+            s.rpe;
+    }
+
+    const readiness =
+        localStorage.getItem("arcReadinessResult");
+
+    if (readiness) {
+        document.getElementById("readinessHistory").textContent =
+            readiness.replace(/\n/g, " • ");
+    }
+
+</script>
+
+</body>
+</html>

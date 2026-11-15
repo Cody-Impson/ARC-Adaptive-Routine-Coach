@@ -1,127 +1,557 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ARC Profile</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+            background: #0e0f10;
+            font-family: "Montserrat", Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            color: white;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 390px;
+            min-height: 100vh;
+            padding: 32px 22px 95px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .subtitle {
+            color: #a5a5a7;
+            font-size: 13px;
+            margin: 5px 0 22px;
+        }
+
+        .card {
+            background: #202326;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            color: #1cfb9e;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        label {
+            display: block;
+            color: #b0b2b5;
+            font-size: 12px;
+            margin: 12px 0 7px;
+        }
+
+        input, select {
+            width: 100%;
+            height: 52px;
+            border: none;
+            outline: none;
+            border-radius: 13px;
+            background: #2a2d31;
+            color: white;
+            padding: 0 14px;
+            font-family: "Montserrat";
+            font-size: 14px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .value-row {
+            margin-top: 10px;
+        }
+
+        .value-label {
+            color: #a5a5a7;
+            font-size: 11px;
+        }
+
+        .value {
+            margin-top: 3px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #2a2d31;
+            border-radius: 8px;
+            padding: 7px 9px;
+            margin: 4px 4px 0 0;
+            font-size: 11px;
+        }
+
+        button {
+            width: 100%;
+            height: 55px;
+            border: none;
+            border-radius: 15px;
+            font-family: "Montserrat";
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .save {
+            background: #1cfb9e;
+            color: black;
+            margin-top: 18px;
+        }
+
+        .link-btn {
+            background: #2a2d31;
+            color: #1cfb9e;
+            margin-top: 10px;
+        }
+
+        #message {
+            text-align: center;
+            color: #1cfb9e;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 390px;
+            height: 64px;
+            background: #111315;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #292c2f;
+        }
+
+        .bottom-nav a {
+            color: #a5a5a7;
+            text-decoration: none;
+            font-size: 11px;
+        }
+
+        .bottom-nav a.active {
+            color: #1cfb9e;
+        }
+    </style>
 </head>
+
 <body>
 
-<h1>ARC User Profile</h1>
+<div class="app">
 
-<label>Name:</label>
-<input id="name" type="text">
-<br><br>
+    <h1>Your Profile</h1>
 
-<label>Email:</label>
-<input id="email" type="text">
-<br><br>
+    <div class="subtitle">
+        Your ARC training setup and preferences.
+    </div>
 
-<label>Password:</label>
-<input id="password" type="password">
-<br><br>
 
-<label>Age:</label>
-<input id="age" type="number">
-<br><br>
+    <div class="card">
 
-<label>Gender:</label>
-<select id="gender">
-    <option value="male">Male</option>
-    <option value="female">Female</option>
-    <option value="Prefer not to say">Other</option>
-</select>
-<br><br>
+        <div class="section-title">
+            PERSONAL INFORMATION
+        </div>
 
-<label>Height:</label>
-<input id="feet" type="number" placeholder="Feet">
-<input id="inches" type="number" placeholder="Inches">
-<br><br>
+        <label>Name</label>
+        <input id="name" type="text">
 
-<label>Weight:</label>
-<input id="weight" type="number">
-<br><br>
+        <label>Email</label>
+        <input id="email" type="email">
 
-<label>Goal:</label>
-    <select id="goal" onchange="showOtherGoal()">
-    <option value="Lose Weight">Lose Weight</option>
-    <option value="Build Muscle">Build Muscle</option>
-    <option value="Increase Strength">Increase Strength</option>
-    <option value="Improve Endurance">Improve Endurance</option>
-    <option value="General Fitness">General Fitness</option>
-    <option value="Get in Shape">Get in Shape</option>
-    <option value="Prefer not to say">Prefer not to say</option>
-    <option value="Other">Other</option>
-</select>
+        <div class="grid">
 
-<input id="otherGoal"
-       type="text"
-       placeholder="Type Your Goal Here"
-       style="display:none;">
+            <div>
+                <label>Age</label>
+                <input id="age" type="number">
+            </div>
 
-<br><br>
+            <div>
+                <label>Sex</label>
 
-<button id="save">Save</button>
+                <select id="sex">
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+            </div>
 
-<p id="message"></p>
+        </div>
+
+
+        <div class="grid">
+
+            <div>
+                <label>Height - Feet</label>
+                <input id="heightFeet" type="number">
+            </div>
+
+            <div>
+                <label>Height - Inches</label>
+                <input id="heightInches" type="number">
+            </div>
+
+        </div>
+
+
+        <label>Weight</label>
+        <input id="weight" type="number">
+
+
+        <button class="save"
+                onclick="saveProfile()">
+            Save Profile
+        </button>
+
+        <div id="message"></div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="section-title">
+            TRAINING GOALS
+        </div>
+
+        <div class="value-row">
+            <div class="value-label">Primary goal</div>
+            <div class="value" id="goalValue">Not set</div>
+        </div>
+
+        <div class="value-row">
+            <div class="value-label">Experience</div>
+            <div class="value" id="experienceValue">Not set</div>
+        </div>
+
+        <div class="value-row">
+            <div class="value-label">Training days</div>
+            <div class="value" id="daysValue">Not set</div>
+        </div>
+
+        <div class="value-row">
+            <div class="value-label">Typical session</div>
+            <div class="value" id="sessionValue">Not set</div>
+        </div>
+
+        <button class="link-btn"
+                onclick="window.location.href='training.html'">
+            Update Training Goals
+        </button>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="section-title">
+            TRAINING ENVIRONMENT
+        </div>
+
+        <div class="value-row">
+            <div class="value-label">Training location</div>
+            <div class="value" id="locationValue">Not set</div>
+        </div>
+
+        <div class="value-row">
+            <div class="value-label">Available equipment</div>
+            <div id="equipmentValue"></div>
+        </div>
+
+        <div class="value-row">
+            <div class="value-label">Limitations / injuries</div>
+            <div class="value" id="limitationsValue">None listed</div>
+        </div>
+
+        <div class="value-row">
+            <div class="value-label">Movements to avoid</div>
+            <div class="value" id="avoidValue">None listed</div>
+        </div>
+
+        <button class="link-btn"
+                onclick="window.location.href='equipment.html'">
+            Update Equipment
+        </button>
+
+    </div>
+
+
+    <button class="link-btn"
+            onclick="window.location.href='readiness.html'">
+        Daily Readiness Check
+    </button>
+
+    <button class="link-btn"
+            onclick="window.location.href='exercises.html'">
+        Exercise Library
+    </button>
+
+</div>
+
+
+<div class="bottom-nav">
+    <a href="home.html">Home</a>
+    <a href="workout.html">Workouts</a>
+    <a href="orin.html">ORIN</a>
+    <a href="history.html">History</a>
+    <a href="profile.html" class="active">Profile</a>
+</div>
+
 
 <script>
-document.getElementById("save").onclick = function() {
-    let name = document.getElementById('name').value;
-    let email = document.getElementById('email').value;
-    let password = document.getElementById('password').value;
-    let age = document.getElementById("age").value;
-    let gender = document.getElementById("gender").value;
-    let feet = document.getElementById("feet").value;
-    let inches = document.getElementById("inches").value;
-    let weight = document.getElementById("weight").value;
-    let goal = document.getElementById("goal").value;
 
-    if (goal == "Other") {
-        goal = document.getElementById("otherGoal").value;
+    function getData(key) {
+        try {
+            return JSON.parse(localStorage.getItem(key)) || {};
+        } catch {
+            return {};
+        }
     }
 
-    let profile = {
-        name: name,
-        email: email,
-        password: password,
-        age: age,
-        gender: gender,
-        feet: feet,
-        inches: inches,
-        weight: weight,
-        goal: goal,
+
+    const oldProfile =
+        getData("arcProfileStep1");
+
+    const training =
+        getData("arcProfileStep2");
+
+    const equipment =
+        getData("arcProfileStep3");
+
+
+    /* LOAD PERSONAL INFO */
+
+    document.getElementById("name").value =
+        oldProfile.name ||
+        localStorage.getItem("arcUserName") ||
+        "";
+
+    document.getElementById("email").value =
+        oldProfile.email || "";
+
+    document.getElementById("age").value =
+        oldProfile.age || "";
+
+    document.getElementById("sex").value =
+        oldProfile.sex ||
+        oldProfile.gender ||
+        "Male";
+
+    document.getElementById("heightFeet").value =
+        oldProfile.heightFeet ||
+        oldProfile.feet ||
+        "";
+
+    document.getElementById("heightInches").value =
+        oldProfile.heightInches ||
+        oldProfile.inches ||
+        "";
+
+    document.getElementById("weight").value =
+        oldProfile.weight || "";
+
+
+    /* LOAD TRAINING */
+
+    document.getElementById("goalValue").textContent =
+        training.goal ||
+        training.primaryGoal ||
+        "Not set";
+
+    document.getElementById("experienceValue").textContent =
+        training.experience ||
+        "Not set";
+
+
+    const days =
+        training.days ||
+        training.trainingDays ||
+        training.daysPerWeek;
+
+    document.getElementById("daysValue").textContent =
+        days
+            ? days + " days / week"
+            : "Not set";
+
+
+    const session =
+        training.session ||
+        training.sessionLength ||
+        training.duration;
+
+    document.getElementById("sessionValue").textContent =
+        session
+            ? session + (String(session).includes("min") ? "" : " min")
+            : "Not set";
+
+
+    /* LOAD EQUIPMENT */
+
+    document.getElementById("locationValue").textContent =
+        equipment.location ||
+        equipment.trainingLocation ||
+        equipment.gymType ||
+        "Not set";
+
+
+    const equipmentList =
+        equipment.equipment ||
+        equipment.availableEquipment ||
+        [];
+
+
+    const equipmentContainer =
+        document.getElementById("equipmentValue");
+
+
+    if (
+        Array.isArray(equipmentList) &&
+        equipmentList.length > 0
+    ) {
+
+        equipmentList.forEach(item => {
+
+            const tag =
+                document.createElement("span");
+
+            tag.className =
+                "tag";
+
+            tag.textContent =
+                item;
+
+            equipmentContainer.appendChild(tag);
+
+        });
+
+    }
+    else {
+
+        equipmentContainer.innerHTML =
+            '<div class="value">Not set</div>';
+
     }
 
-    document.getElementById("message").innerHTML =
-        "Name: " + name + "<br>" +
-        "Email: " + email + "<br>" +
-        "Age: " + age + "<br>" +
-        "Gender: " + gender + "<br>" +
-        "Height: " + feet + " ft " + inches + " in<br>" +
-        "Weight: " + weight + "<br>" +
-        "Goal: " + goal;
 
-    fetch("/profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(profile),
-    })
-        .then(response => response.text())
-        .then(data => {
-            console.log(data);
-        })
-};
+    document.getElementById("limitationsValue").textContent =
+        equipment.limitations ||
+        equipment.injuries ||
+        "None listed";
 
-function showOtherGoal(){
-    let goal = document.getElementById("goal").value;
-    let otherGoal = document.getElementById("otherGoal");
 
-    if (goal == "Other") {
-        otherGoal.style.display = "inline";
-    } else {
-        otherGoal.style.display = "none";
+    document.getElementById("avoidValue").textContent =
+        equipment.avoid ||
+        equipment.restrictions ||
+        "None listed";
+
+
+    /* SAVE PERSONAL INFO */
+
+    function saveProfile() {
+
+        const name =
+            document.getElementById("name").value.trim();
+
+        const email =
+            document.getElementById("email").value.trim();
+
+        const age =
+            document.getElementById("age").value;
+
+        const sex =
+            document.getElementById("sex").value;
+
+        const heightFeet =
+            document.getElementById("heightFeet").value;
+
+        const heightInches =
+            document.getElementById("heightInches").value;
+
+        const weight =
+            document.getElementById("weight").value;
+
+
+        if (!name) {
+
+            document.getElementById("message").textContent =
+                "Enter your name before saving.";
+
+            return;
+        }
+
+
+        const updatedProfile = {
+
+            name:
+            name,
+
+            email:
+                email || oldProfile.email || "",
+
+            age:
+                age || oldProfile.age || "",
+
+            sex:
+                sex || oldProfile.sex || "Male",
+
+            heightFeet:
+                heightFeet || oldProfile.heightFeet || "",
+
+            heightInches:
+                heightInches || oldProfile.heightInches || "",
+
+            weight:
+                weight || oldProfile.weight || ""
+
+        };
+
+
+        localStorage.setItem(
+            "arcProfileStep1",
+            JSON.stringify(updatedProfile)
+        );
+
+
+        /*
+         * Backup name so ARC always has it.
+         */
+
+        localStorage.setItem(
+            "arcUserName",
+            name
+        );
+
+
+        document.getElementById("message").textContent =
+            "Profile saved.";
+
     }
-}
 
 </script>
+
 </body>
 </html>

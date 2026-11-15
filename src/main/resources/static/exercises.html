@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ARC - Exercise Library</title>
+
+  <link
+          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+          rel="stylesheet"
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #0e0f10;
+      font-family: "Montserrat", Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      color: #f5f7f7;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      padding: 32px 22px 100px;
+      background: #0e0f10;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: #1cfb9e;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 26px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      color: #a5a5a7;
+      font-size: 13px;
+      margin-top: 6px;
+      margin-bottom: 24px;
+    }
+
+    .search {
+      width: 100%;
+      height: 54px;
+      background: #2a2d31;
+      color: white;
+      border: none;
+      outline: none;
+      border-radius: 14px;
+      padding: 0 16px;
+      font-family: "Montserrat", Arial, sans-serif;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .search::placeholder {
+      color: #777b80;
+    }
+
+    .exercise-card {
+      width: 100%;
+      background: #202326;
+      border-radius: 15px;
+      padding: 17px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: 0.15s ease;
+      border: 1px solid transparent;
+    }
+
+    .exercise-card:hover {
+      background: #292d31;
+      border-color: #3a3e42;
+      transform: translateY(-1px);
+    }
+
+    .exercise-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .exercise-meta {
+      font-size: 12px;
+      color: #a5a5a7;
+      margin-top: 7px;
+    }
+
+    .exercise-extra {
+      margin-top: 7px;
+      font-size: 11px;
+      color: #1cfb9e;
+    }
+
+    .loading {
+      color: #a5a5a7;
+      text-align: center;
+      margin-top: 30px;
+      font-size: 13px;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      z-index: 999;
+      overflow-y: auto;
+      padding: 40px 18px;
+    }
+
+    .modal-overlay.show {
+      display: block;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 430px;
+      margin: 30px auto;
+      background: #202326;
+      border-radius: 18px;
+      padding: 22px;
+    }
+
+    .modal h2 {
+      margin: 0 0 6px;
+      font-size: 25px;
+    }
+
+    .modal-id {
+      color: #7d8185;
+      font-size: 11px;
+      margin-bottom: 20px;
+    }
+
+    .section {
+      background: #292d31;
+      border-radius: 13px;
+      padding: 14px;
+      margin-top: 12px;
+    }
+
+    .section-title {
+      color: #1cfb9e;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+      letter-spacing: 0.4px;
+    }
+
+    .section-value {
+      color: #f5f7f7;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .muscle-list {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .muscle-list li {
+      margin-bottom: 5px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #34383d;
+      color: #f5f7f7;
+      padding: 6px 9px;
+      border-radius: 8px;
+      margin: 3px 4px 3px 0;
+      font-size: 11px;
+    }
+
+    .tag.green {
+      color: #1cfb9e;
+    }
+
+    .close-btn {
+      width: 100%;
+      height: 52px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 14px;
+      background: #1cfb9e;
+      color: #000;
+      font-family: "Montserrat", Arial, sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 430px;
+      height: 64px;
+      background: #111315;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid #292c2f;
+    }
+
+    .bottom-nav a {
+      color: #a5a5a7;
+      text-decoration: none;
+      font-size: 11px;
+    }
+
+    .bottom-nav a.active {
+      color: #1cfb9e;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <a class="back-link" href="profile.html">
+    ‹ Profile
+  </a>
+
+  <h1>Exercise Library</h1>
+
+  <div class="subtitle">
+    OpenExerciseDB exercises available to ARC.
+  </div>
+
+  <input
+          id="searchInput"
+          class="search"
+          type="text"
+          placeholder="Search exercises..."
+          oninput="filterExercises()"
+  >
+
+  <div id="exerciseList">
+    <div class="loading">
+      Loading exercises...
+    </div>
+  </div>
+
+</div>
+
+
+<div id="modalOverlay"
+     class="modal-overlay"
+     onclick="overlayClick(event)">
+
+  <div class="modal">
+
+    <h2 id="modalName">
+      Exercise
+    </h2>
+
+    <div id="modalId"
+         class="modal-id">
+    </div>
+
+
+    <div class="section">
+      <div class="section-title">
+        Classification
+      </div>
+
+      <div class="section-value"
+           id="modalClassification">
+      </div>
+    </div>
+
+
+    <div class="section">
+      <div class="section-title">
+        Difficulty
+      </div>
+
+      <div class="section-value"
+           id="modalDifficulty">
+      </div>
+    </div>
+
+
+    <div class="section">
+      <div class="section-title">
+        Movement
+      </div>
+
+      <div class="section-value"
+           id="modalMovement">
+      </div>
+    </div>
+
+
+    <div class="section">
+      <div class="section-title">
+        Primary Muscles
+      </div>
+
+      <div class="section-value"
+           id="modalPrimaryMuscles">
+      </div>
+    </div>
+
+
+    <div class="section">
+      <div class="section-title">
+        Secondary Muscles
+      </div>
+
+      <div class="section-value"
+           id="modalSecondaryMuscles">
+      </div>
+    </div>
+
+
+    <div class="section">
+      <div class="section-title">
+        Equipment
+      </div>
+
+      <div class="section-value"
+           id="modalEquipment">
+      </div>
+    </div>
+
+
+    <div class="section">
+      <div class="section-title">
+        Training / Tracking
+      </div>
+
+      <div class="section-value"
+           id="modalTracking">
+      </div>
+    </div>
+
+
+    <div class="section">
+      <div class="section-title">
+        Exercise Type
+      </div>
+
+      <div class="section-value"
+           id="modalMechanics">
+      </div>
+    </div>
+
+
+    <div class="section">
+      <div class="section-title">
+        ARC Usage
+      </div>
+
+      <div class="section-value"
+           id="modalTags">
+      </div>
+    </div>
+
+
+    <button class="close-btn"
+            onclick="closeModal()">
+      Close
+    </button>
+
+  </div>
+</div>
+
+
+<div class="bottom-nav">
+
+  <a href="home.html">
+    Home
+  </a>
+
+  <a href="workout.html">
+    Workouts
+  </a>
+
+  <a href="orin.html">
+    ORIN
+  </a>
+
+  <a href="history.html">
+    History
+  </a>
+
+  <a href="profile.html">
+    Profile
+  </a>
+
+</div>
+
+
+<script>
+
+  let allExercises = [];
+
+
+  /*
+   * Load exercises from the backend.
+   *
+   * Your current ARC project already uses the backend
+   * ExerciseController to expose the OpenExerciseDB data.
+   */
+
+  async function loadExercises() {
+
+    const list = document.getElementById("exerciseList");
+
+    try {
+
+      const response = await fetch("/exercises");
+
+      if (!response.ok) {
+        throw new Error(
+                "Exercise request failed: " + response.status
+        );
+      }
+
+      const data = await response.json();
+
+      /*
+       * Handles either:
+       *
+       * [
+       *   {...},
+       *   {...}
+       * ]
+       *
+       * OR
+       *
+       * {
+       *   records: [...]
+       * }
+       */
+
+      if (Array.isArray(data)) {
+        allExercises = data;
+      }
+      else if (Array.isArray(data.records)) {
+        allExercises = data.records;
+      }
+      else {
+        throw new Error(
+                "Exercise data format not recognized."
+        );
+      }
+
+      renderExercises(allExercises);
+
+    }
+    catch (error) {
+
+      console.error(error);
+
+      list.innerHTML =
+              '<div class="loading">' +
+              'Could not load the exercise library.' +
+              '</div>';
+
+    }
+  }
+
+
+
+  function renderExercises(exercises) {
+
+    const list =
+            document.getElementById("exerciseList");
+
+    list.innerHTML = "";
+
+
+    if (exercises.length === 0) {
+
+      list.innerHTML =
+              '<div class="loading">' +
+              'No exercises found.' +
+              '</div>';
+
+      return;
+    }
+
+
+    exercises.forEach(exercise => {
+
+      const card =
+              document.createElement("div");
+
+      card.className =
+              "exercise-card";
+
+
+      const bodyRegion =
+              cleanValue(exercise.body_region);
+
+      const modality =
+              cleanValue(exercise.modality);
+
+      const equipment =
+              getEquipmentNames(exercise);
+
+
+      card.innerHTML =
+
+              '<div class="exercise-name">' +
+              escapeHtml(
+                      exercise.name || "Unnamed Exercise"
+              ) +
+              '</div>' +
+
+              '<div class="exercise-meta">' +
+
+              escapeHtml(bodyRegion) +
+
+              ' • ' +
+
+              escapeHtml(modality) +
+
+              ' • ' +
+
+              escapeHtml(equipment) +
+
+              '</div>' +
+
+              '<div class="exercise-extra">' +
+
+              escapeHtml(
+                      cleanValue(
+                              exercise.difficulty
+                      )
+              ) +
+
+              '</div>';
+
+
+      card.onclick = function() {
+        openExercise(exercise);
+      };
+
+
+      list.appendChild(card);
+
+    });
+
+  }
+
+
+
+  function filterExercises() {
+
+    const search =
+            document
+                    .getElementById("searchInput")
+                    .value
+                    .toLowerCase()
+                    .trim();
+
+
+    if (search === "") {
+
+      renderExercises(allExercises);
+
+      return;
+    }
+
+
+    const filtered =
+            allExercises.filter(exercise => {
+
+              const searchable =
+                      JSON
+                              .stringify(exercise)
+                              .toLowerCase();
+
+              return searchable.includes(search);
+
+            });
+
+
+    renderExercises(filtered);
+
+  }
+
+
+
+  function openExercise(exercise) {
+
+    document.getElementById("modalName")
+            .textContent =
+            exercise.name || "Exercise";
+
+
+    document.getElementById("modalId")
+            .textContent =
+            "OpenExerciseDB ID: " +
+            (exercise.id || "Unknown");
+
+
+
+    /*
+     * Classification
+     */
+
+    document.getElementById(
+            "modalClassification"
+    ).innerHTML =
+
+            createLine(
+                    "Category",
+                    exercise.category
+            ) +
+
+            createLine(
+                    "Body region",
+                    cleanValue(
+                            exercise.body_region
+                    )
+            ) +
+
+            createLine(
+                    "Modality",
+                    cleanValue(
+                            exercise.modality
+                    )
+            );
+
+
+
+    /*
+     * Difficulty
+     */
+
+    document.getElementById(
+            "modalDifficulty"
+    ).innerHTML =
+
+            createLine(
+                    "Difficulty",
+                    cleanValue(
+                            exercise.difficulty
+                    )
+            );
+
+
+
+    /*
+     * Movement
+     */
+
+    document.getElementById(
+            "modalMovement"
+    ).innerHTML =
+
+            createLine(
+                    "Movement pattern",
+                    cleanValue(
+                            exercise.movement_pattern
+                    )
+            ) +
+
+            createLine(
+                    "Laterality",
+                    cleanValue(
+                            exercise.laterality
+                    )
+            );
+
+
+
+    /*
+     * Muscles
+     */
+
+    const primaryMuscles =
+            getMuscles(
+                    exercise,
+                    "primary"
+            );
+
+    const secondaryMuscles =
+            getMuscles(
+                    exercise,
+                    "secondary"
+            );
+
+
+    document.getElementById(
+            "modalPrimaryMuscles"
+    ).innerHTML =
+            createMuscleList(
+                    primaryMuscles
+            );
+
+
+    document.getElementById(
+            "modalSecondaryMuscles"
+    ).innerHTML =
+            createMuscleList(
+                    secondaryMuscles
+            );
+
+
+
+    /*
+     * Equipment
+     */
+
+    const equipment =
+            getEquipmentArray(
+                    exercise
+            );
+
+
+    document.getElementById(
+            "modalEquipment"
+    ).innerHTML =
+            createTags(equipment);
+
+
+
+    /*
+     * Tracking
+     */
+
+    document.getElementById(
+            "modalTracking"
+    ).innerHTML =
+
+            createLine(
+                    "Tracking type",
+                    cleanValue(
+                            exercise.tracking_type
+                    )
+            ) +
+
+            createLine(
+                    "Load mode",
+                    cleanValue(
+                            exercise.load_mode
+                    )
+            );
+
+
+
+    /*
+     * Mechanics
+     */
+
+    document.getElementById(
+            "modalMechanics"
+    ).innerHTML =
+
+            createLine(
+                    "Mechanic",
+                    cleanValue(
+                            exercise.mechanic
+                    )
+            ) +
+
+            createLine(
+                    "Movement",
+                    cleanValue(
+                            exercise.movement_pattern
+                    )
+            );
+
+
+
+    /*
+     * Usage tags
+     */
+
+    const usageTags =
+            Array.isArray(
+                    exercise.usage_tags
+            )
+                    ? exercise.usage_tags
+                    : [];
+
+
+    document.getElementById(
+            "modalTags"
+    ).innerHTML =
+            createTags(usageTags);
+
+
+
+    document
+            .getElementById(
+                    "modalOverlay"
+            )
+            .classList
+            .add("show");
+
+
+
+    document.body.style.overflow =
+            "hidden";
+
+  }
+
+
+
+  function closeModal() {
+
+    document
+            .getElementById(
+                    "modalOverlay"
+            )
+            .classList
+            .remove("show");
+
+
+    document.body.style.overflow =
+            "";
+
+  }
+
+
+
+  function overlayClick(event) {
+
+    if (
+            event.target.id ===
+            "modalOverlay"
+    ) {
+
+      closeModal();
+
+    }
+
+  }
+
+
+
+  function getMuscles(
+          exercise,
+          role
+  ) {
+
+    if (
+            !Array.isArray(
+                    exercise.muscles
+            )
+    ) {
+      return [];
+    }
+
+
+    return exercise.muscles
+
+            .filter(
+                    muscle =>
+                            muscle.role === role
+            )
+
+            .map(
+                    muscle =>
+                            cleanValue(
+                                    muscle.id
+                            )
+            );
+
+  }
+
+
+
+  function getEquipmentArray(
+          exercise
+  ) {
+
+    if (
+            !Array.isArray(
+                    exercise.equipment
+            )
+    ) {
+      return [];
+    }
+
+
+    return exercise.equipment.map(
+            item =>
+                    cleanValue(item.id)
+    );
+
+  }
+
+
+
+  function getEquipmentNames(
+          exercise
+  ) {
+
+    const items =
+            getEquipmentArray(
+                    exercise
+            );
+
+
+    if (items.length === 0) {
+      return "No equipment listed";
+    }
+
+
+    return items.join(", ");
+
+  }
+
+
+
+  function createMuscleList(
+          muscles
+  ) {
+
+    if (muscles.length === 0) {
+
+      return "Not listed";
+
+    }
+
+
+    let html =
+            '<ul class="muscle-list">';
+
+
+    muscles.forEach(muscle => {
+
+      html +=
+
+              '<li>' +
+
+              escapeHtml(muscle) +
+
+              '</li>';
+
+    });
+
+
+    html += '</ul>';
+
+
+    return html;
+
+  }
+
+
+
+  function createTags(items) {
+
+    if (
+            !items ||
+            items.length === 0
+    ) {
+
+      return "Not listed";
+
+    }
+
+
+    return items
+
+            .map(item =>
+
+                    '<span class="tag green">' +
+
+                    escapeHtml(
+                            cleanValue(item)
+                    ) +
+
+                    '</span>'
+
+            )
+
+            .join("");
+
+  }
+
+
+
+  function createLine(
+          label,
+          value
+  ) {
+
+    const cleaned =
+            value
+                    ? cleanValue(value)
+                    : "Not listed";
+
+
+    return (
+
+            '<div style="margin-bottom:7px;">' +
+
+            '<strong>' +
+
+            escapeHtml(label) +
+
+            ':</strong> ' +
+
+            escapeHtml(cleaned) +
+
+            '</div>'
+
+    );
+
+  }
+
+
+
+  function cleanValue(value) {
+
+    if (
+            value === null ||
+            value === undefined ||
+            value === ""
+    ) {
+
+      return "Not listed";
+
+    }
+
+
+    return String(value)
+
+            .replaceAll("_", " ")
+
+            .replace(/\b\w/g, function(letter) {
+              return letter.toUpperCase();
+            });
+
+  }
+
+
+
+  function escapeHtml(value) {
+
+    return String(value)
+
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+
+  }
+
+
+
+  /*
+   * Escape key closes modal.
+   */
+
+  document.addEventListener(
+          "keydown",
+          function(event) {
+
+            if (event.key === "Escape") {
+              closeModal();
+            }
+
+          }
+  );
+
+
+
+  loadExercises();
+
+</script>
+
+</body>
+</html>

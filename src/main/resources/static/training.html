@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARC - Training Goals</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+            background: #0e0f10;
+            font-family: "Montserrat", Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 390px;
+            min-height: 100vh;
+            background: #0e0f10;
+            color: #f5f7f7;
+            padding: 34px 22px 24px;
+        }
+
+        .progress {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .progress div {
+            height: 4px;
+            flex: 1;
+            border-radius: 2px;
+            background: #2a2d31;
+        }
+
+        .progress .active {
+            background: #1cfb9e;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            margin-top: 7px;
+            color: #a5a5a7;
+            font-size: 13px;
+        }
+
+        .section {
+            margin-top: 38px;
+        }
+
+        .section-title {
+            margin-bottom: 12px;
+            color: #a5a5a7;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .option {
+            border: none;
+            border-radius: 12px;
+            background: #2a2d31;
+            color: #f5f7f7;
+            padding: 13px 16px;
+            font-family: "Montserrat", Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .option.active {
+            background: #1cfb9e;
+            color: #000;
+        }
+
+        .full-row .option {
+            flex: 1;
+        }
+
+        .days {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        .session-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .continue-btn {
+            width: 100%;
+            height: 58px;
+            margin-top: 88px;
+            border: none;
+            border-radius: 16px;
+            background: #1cfb9e;
+            color: #000;
+            font-family: "Montserrat", Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="progress">
+        <div class="active"></div>
+        <div class="active"></div>
+        <div></div>
+    </div>
+
+    <h1>What are you training for?</h1>
+
+    <p class="subtitle">
+        You can change this later.
+    </p>
+
+    <div class="section">
+        <div class="section-title">Primary goal</div>
+
+        <div class="options">
+            <button class="option active" data-group="goal">Build Strength</button>
+            <button class="option" data-group="goal">Build Muscle</button>
+            <button class="option" data-group="goal">Lose fat</button>
+            <button class="option" data-group="goal">Endurance</button>
+            <button class="option" data-group="goal">General fitness</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Experience</div>
+
+        <div class="options full-row">
+            <button class="option active" data-group="experience">Beginner</button>
+            <button class="option" data-group="experience">Intermediate</button>
+            <button class="option" data-group="experience">Advanced</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Training days / week</div>
+
+        <div class="days">
+            <button class="option active" data-group="days">3</button>
+            <button class="option" data-group="days">4</button>
+            <button class="option" data-group="days">5</button>
+            <button class="option" data-group="days">6</button>
+            <button class="option" data-group="days">7</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Typical session</div>
+
+        <div class="session-options">
+            <button class="option active" data-group="session">30 min</button>
+            <button class="option" data-group="session">45 min</button>
+            <button class="option" data-group="session">60 min</button>
+        </div>
+    </div>
+
+    <button class="continue-btn" onclick="saveAndContinue()">
+        Continue
+    </button>
+
+</div>
+
+<script>
+    const selections = {
+        goal: "Build Strength",
+        experience: "Beginner",
+        days: "3",
+        session: "30 min"
+    };
+
+    document.querySelectorAll(".option").forEach(button => {
+        button.addEventListener("click", function () {
+            const group = this.dataset.group;
+
+            document.querySelectorAll(`[data-group="${group}"]`)
+                .forEach(btn => btn.classList.remove("active"));
+
+            this.classList.add("active");
+            selections[group] = this.textContent.trim();
+        });
+    });
+
+    function saveAndContinue() {
+        localStorage.setItem(
+            "arcProfileStep2",
+            JSON.stringify(selections)
+        );
+
+        window.location.href = "equipment.html";
+    }
+</script>
+
+</body>
+</html>

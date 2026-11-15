@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARC - ORIN</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+            background: #0e0f10;
+            font-family: "Montserrat", Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 390px;
+            min-height: 100vh;
+            background: #0e0f10;
+            color: #f5f7f7;
+            padding: 18px 22px 30px;
+        }
+
+        .top-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .top-btn {
+            height: 38px;
+            border: none;
+            border-radius: 12px;
+            background: #2a2d31;
+            color: #1cfb9e;
+            padding: 0 14px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        h1 {
+            margin: 20px 0 0;
+            font-size: 30px;
+        }
+
+        .subtitle {
+            margin-top: 4px;
+            font-size: 13px;
+            color: #f5f7f7;
+        }
+
+        .message {
+            border-radius: 16px;
+            background: #2a2d31;
+            padding: 18px;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+
+        .user-message {
+            width: 310px;
+            margin-top: 30px;
+        }
+
+        .orin-message {
+            width: 310px;
+            margin-left: auto;
+            margin-top: 25px;
+        }
+
+        .orin-title {
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .orin-response {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .updated {
+            margin-top: 12px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .section-title {
+            margin-top: 24px;
+            margin-bottom: 10px;
+            color: #a5a5a7;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .quick-btn {
+            height: 38px;
+            border: none;
+            border-radius: 12px;
+            background: #2a2d31;
+            color: #1cfb9e;
+            padding: 0 12px;
+            font-family: "Montserrat", Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .suggestion {
+            margin-top: 14px;
+            border-radius: 16px;
+            background: #2a2d31;
+            padding: 18px;
+            color: #a5a5a7;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .input-row {
+            position: sticky;
+            bottom: 15px;
+            margin-top: 35px;
+            display: flex;
+            gap: 10px;
+            background: #0e0f10;
+            padding-top: 10px;
+        }
+
+        #messageInput {
+            flex: 1;
+            min-width: 0;
+            height: 58px;
+            border: none;
+            outline: none;
+            border-radius: 16px;
+            background: #2a2d31;
+            color: #f5f7f7;
+            padding: 0 18px;
+            font-family: "Montserrat", Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        input::placeholder {
+            color: #a5a5a7;
+        }
+
+        .send-btn {
+            width: 70px;
+            height: 58px;
+            border: none;
+            border-radius: 16px;
+            background: #1cfb9e;
+            color: #000;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        #chatArea {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="top-row">
+        <button class="top-btn"
+                onclick="window.location.href='active-set.html'">
+            ‹ Workout
+        </button>
+
+        <button class="top-btn"
+                onclick="window.location.href='home.html'">
+            Home
+        </button>
+    </div>
+
+    <h1>ORIN</h1>
+
+    <div class="subtitle">
+        Your AI training coach
+    </div>
+
+    <div id="chatArea">
+
+        <div class="message user-message">
+            My right shoulder feels off on this set.
+        </div>
+
+        <div class="message orin-message">
+
+            <div class="orin-title">
+                Let’s adjust it.
+            </div>
+
+            <div class="orin-response">
+                Drop the load to 165 lb and keep 2–3 reps in reserve.
+                If the discomfort continues, stop this movement and switch exercises.
+            </div>
+
+            <div class="updated">
+                Workout updated
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="section-title">
+        Quick actions
+    </div>
+
+    <div class="quick-actions">
+
+        <button class="quick-btn"
+                onclick="quickAction('This feels too heavy.')">
+            Too heavy
+        </button>
+
+        <button class="quick-btn"
+                onclick="quickAction('The machine is taken.')">
+            Machine taken
+        </button>
+
+        <button class="quick-btn"
+                onclick="quickAction('I have pain or discomfort.')">
+            Pain / discomfort
+        </button>
+
+    </div>
+
+    <div class="suggestion"
+         onclick="quickAction('The machine is taken.')">
+        Try: “The machine is taken”
+    </div>
+
+    <div class="suggestion"
+         onclick="quickAction('I feel great. Can I increase it?')">
+        Try: “I feel great increase it”
+    </div>
+
+    <div class="input-row">
+
+        <input id="messageInput"
+               type="text"
+               placeholder="Message ORIN…"
+               autocomplete="off"
+               onkeydown="if(event.key === 'Enter') sendMessage()">
+
+        <button class="send-btn"
+                onclick="sendMessage()">
+            Send
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+    function quickAction(message) {
+        document.getElementById("messageInput").value = message;
+    }
+
+    function sendMessage() {
+
+        const input = document.getElementById("messageInput");
+        const message = input.value.trim();
+
+        if (message === "") {
+            return;
+        }
+
+        const chatArea = document.getElementById("chatArea");
+
+        const userBox = document.createElement("div");
+        userBox.className = "message user-message";
+        userBox.textContent = message;
+
+        chatArea.appendChild(userBox);
+
+        const responseBox = document.createElement("div");
+        responseBox.className = "message orin-message";
+
+        let response =
+            "I can help adjust the workout based on that.";
+
+        const lower = message.toLowerCase();
+
+        if (lower.includes("heavy")) {
+            response =
+                "Reduce the load slightly and keep 2–3 reps in reserve. Focus on clean form before increasing weight again.";
+        }
+        else if (lower.includes("machine")) {
+            response =
+                "No problem. Use a similar movement that targets the same muscle group with equipment that is available.";
+        }
+        else if (lower.includes("pain") ||
+            lower.includes("hurt") ||
+            lower.includes("discomfort")) {
+            response =
+                "Reduce intensity and avoid movements that increase discomfort. If the discomfort continues, stop that exercise.";
+        }
+        else if (lower.includes("great") ||
+            lower.includes("increase")) {
+            response =
+                "If the set felt controlled and your form stayed strong, a small increase may be appropriate on the next set.";
+        }
+
+        responseBox.innerHTML =
+            "<div class='orin-title'>ORIN</div>" +
+            "<div class='orin-response'>" +
+            response +
+            "</div>";
+
+        chatArea.appendChild(responseBox);
+
+        input.value = "";
+    }
+
+</script>
+
+</body>
+</html>

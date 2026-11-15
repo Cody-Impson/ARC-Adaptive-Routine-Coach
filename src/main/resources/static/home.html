@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARC Home</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+            background: #0e0f10;
+            font-family: "Montserrat", Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 390px;
+            min-height: 100vh;
+            color: #f5f7f7;
+            padding: 50px 22px 95px;
+        }
+
+        .brand {
+            font-size: 34px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .subtitle {
+            color: #a5a5a7;
+            font-size: 13px;
+        }
+
+        .greeting {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .tagline {
+            color: #a5a5a7;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .card {
+            display: block;
+            background: #202326;
+            border-radius: 16px;
+            padding: 18px;
+            margin-top: 22px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .card-link {
+            cursor: pointer;
+        }
+
+        .label {
+            color: #a5a5a7;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .readiness-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .score {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .status {
+            color: #1cfb9e;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .workout-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-top: 12px;
+        }
+
+        .workout-meta {
+            color: #a5a5a7;
+            font-size: 13px;
+            margin-top: 7px;
+        }
+
+        .goal-tag {
+            color: #1cfb9e;
+            font-size: 11px;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .start-btn {
+            width: 100%;
+            height: 58px;
+            margin-top: 22px;
+            border: none;
+            border-radius: 16px;
+            background: #1cfb9e;
+            color: black;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .orin-title {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .orin-text {
+            color: #a5a5a7;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .orin-link {
+            display: inline-block;
+            margin-top: 14px;
+            color: #1cfb9e;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 390px;
+            height: 64px;
+            background: #111315;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .bottom-nav a {
+            color: #a5a5a7;
+            text-decoration: none;
+            font-size: 11px;
+        }
+
+        .bottom-nav a.active {
+            color: #1cfb9e;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <h1 class="brand">ARC</h1>
+
+    <div class="subtitle">
+        Adaptive Routine Coach
+    </div>
+
+    <div class="greeting" id="greeting">
+        Good evening
+    </div>
+
+    <div class="tagline">
+        Today adapts to you.
+    </div>
+
+
+    <a class="card card-link"
+       href="readiness.html">
+
+        <div class="label">
+            READINESS
+        </div>
+
+        <div class="readiness-row">
+
+            <div class="score"
+                 id="readinessScore">
+                --
+            </div>
+
+            <div class="status"
+                 id="readinessStatus">
+                Check readiness
+            </div>
+
+        </div>
+
+    </a>
+
+
+    <div class="card">
+
+        <div class="label">
+            TODAY'S WORKOUT
+        </div>
+
+        <div class="workout-title"
+             id="workoutTitle">
+            Balanced Full Body
+        </div>
+
+        <div class="workout-meta"
+             id="workoutMeta">
+            5 exercises
+        </div>
+
+        <div class="goal-tag"
+             id="goalTag">
+        </div>
+
+    </div>
+
+
+    <button class="start-btn"
+            onclick="window.location.href='workout.html'">
+        Start Today's Workout
+    </button>
+
+
+    <a class="card card-link"
+       href="readiness.html">
+
+        <div class="label">
+            DAILY READINESS
+        </div>
+
+        <div class="workout-title">
+            Check how you're feeling
+        </div>
+
+        <div class="workout-meta">
+            Sleep • Energy • Soreness • Stress • Motivation
+        </div>
+
+    </a>
+
+
+    <a class="card card-link"
+       href="exercises.html">
+
+        <div class="label">
+            EXERCISE LIBRARY
+        </div>
+
+        <div class="workout-title">
+            Browse Exercises
+        </div>
+
+        <div class="workout-meta">
+            Powered by OpenExerciseDB
+        </div>
+
+    </a>
+
+
+    <div class="card">
+
+        <div class="orin-title">
+            ORIN
+        </div>
+
+        <div class="orin-text">
+            Get help adjusting today's workout.
+        </div>
+
+        <a class="orin-link"
+           href="orin.html">
+            Open Coach →
+        </a>
+
+    </div>
+
+</div>
+
+
+<div class="bottom-nav">
+    <a href="home.html" class="active">Home</a>
+    <a href="workout.html">Workouts</a>
+    <a href="orin.html">ORIN</a>
+    <a href="history.html">History</a>
+    <a href="profile.html">Profile</a>
+</div>
+
+
+<script>
+
+    function getData(key) {
+
+        try {
+
+            return JSON.parse(
+                localStorage.getItem(key)
+            ) || {};
+
+        }
+
+        catch {
+
+            return {};
+
+        }
+
+    }
+
+
+    const profile =
+        getData("arcProfileStep1");
+
+    const training =
+        getData("arcProfileStep2");
+
+
+    const savedName =
+        profile.name ||
+        localStorage.getItem("arcUserName") ||
+        "";
+
+
+    if (savedName) {
+
+        document.getElementById(
+            "greeting"
+        ).textContent =
+            "Good evening, " + savedName;
+
+    }
+
+
+    const goal =
+        training.goal ||
+        training.primaryGoal ||
+        "General fitness";
+
+
+    const goalLower =
+        goal.toLowerCase();
+
+
+    let workoutTitle =
+        "Balanced Full Body";
+
+    let workoutMeta =
+        "5 exercises • 45 min";
+
+
+    if (goalLower.includes("strength")) {
+
+        workoutTitle =
+            "Strength Training";
+
+        workoutMeta =
+            "5 exercises • 50 min";
+
+    }
+
+    else if (goalLower.includes("muscle")) {
+
+        workoutTitle =
+            "Muscle Building";
+
+        workoutMeta =
+            "5 exercises • 55 min";
+
+    }
+
+    else if (goalLower.includes("fat")) {
+
+        workoutTitle =
+            "Full Body Conditioning";
+
+        workoutMeta =
+            "5 exercises • 40 min";
+
+    }
+
+    else if (goalLower.includes("endurance")) {
+
+        workoutTitle =
+            "Endurance Conditioning";
+
+        workoutMeta =
+            "5 exercises • 45 min";
+
+    }
+
+
+    document.getElementById(
+        "workoutTitle"
+    ).textContent =
+        workoutTitle;
+
+
+    document.getElementById(
+        "workoutMeta"
+    ).textContent =
+        workoutMeta;
+
+
+    document.getElementById(
+        "goalTag"
+    ).textContent =
+        "Goal: " + goal;
+
+
+
+    /* READINESS */
+
+    const readiness =
+        (
+            localStorage.getItem(
+                "arcReadinessResult"
+            ) || ""
+        ).toUpperCase();
+
+
+    const score =
+        document.getElementById(
+            "readinessScore"
+        );
+
+    const status =
+        document.getElementById(
+            "readinessStatus"
+        );
+
+
+    if (
+        readiness.includes("RECOVERY") ||
+        readiness.includes("RECOVER FOCUSED") ||
+        readiness.includes("RECOVERY-FOCUSED")
+    ) {
+
+        score.textContent =
+            "40%";
+
+        status.textContent =
+            "Recovery";
+
+    }
+
+    else if (
+        readiness.includes("MODIFY") ||
+        readiness.includes("REDUCED INTENSITY") ||
+        readiness.includes("REDUCE WORKOUT")
+    ) {
+
+        score.textContent =
+            "70%";
+
+        status.textContent =
+            "Modify";
+
+    }
+
+    else if (
+        readiness.includes("READY") ||
+        readiness.includes("NORMAL WORKOUT") ||
+        readiness.includes("NORMAL INTENSITY")
+    ) {
+
+        score.textContent =
+            "100%";
+
+        status.textContent =
+            "Ready";
+
+    }
+
+    else {
+
+        score.textContent =
+            "--";
+
+        status.textContent =
+            "Check readiness";
+
+    }
+
+</script>
+
+</body>
+</html>

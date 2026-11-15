@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARC - Substitute Exercise</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+            background: #0e0f10;
+            font-family: "Montserrat", Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 390px;
+            min-height: 100vh;
+            background: #0e0f10;
+            color: #f5f7f7;
+            padding: 18px 22px 90px;
+        }
+
+        .back-btn {
+            height: 38px;
+            border: none;
+            border-radius: 12px;
+            background: #2a2d31;
+            color: #1cfb9e;
+            padding: 0 14px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        h1 {
+            margin: 22px 0 4px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #a5a5a7;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .current-card {
+            margin-top: 24px;
+            padding: 18px;
+            border-radius: 16px;
+            background: #202326;
+        }
+
+        .label {
+            color: #a5a5a7;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .current-name {
+            margin-top: 7px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .current-meta {
+            margin-top: 5px;
+            color: #a5a5a7;
+            font-size: 12px;
+        }
+
+        .section-title {
+            margin-top: 28px;
+            margin-bottom: 12px;
+            color: #a5a5a7;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .option-card {
+            width: 100%;
+            border: none;
+            text-align: left;
+            margin-bottom: 12px;
+            padding: 17px;
+            border-radius: 14px;
+            background: #2a2d31;
+            color: #f5f7f7;
+            font-family: "Montserrat", Arial, sans-serif;
+            cursor: pointer;
+        }
+
+        .option-card:hover {
+            background: #34383d;
+        }
+
+        .exercise-name {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .exercise-meta {
+            margin-top: 6px;
+            color: #a5a5a7;
+            font-size: 12px;
+        }
+
+        .reason {
+            margin-top: 8px;
+            color: #1cfb9e;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        #message {
+            min-height: 24px;
+            margin-top: 18px;
+            color: #1cfb9e;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 390px;
+            height: 64px;
+            background: #111315;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #292c2f;
+        }
+
+        .bottom-nav a {
+            color: #a5a5a7;
+            text-decoration: none;
+            font-size: 11px;
+        }
+
+        .bottom-nav a.active {
+            color: #1cfb9e;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <button class="back-btn"
+            onclick="window.location.href='active-set.html'">
+        ‹ Bench Press
+    </button>
+
+    <h1>Substitute Exercise</h1>
+
+    <div class="subtitle">
+        Choose a similar movement that fits your equipment and current training needs.
+    </div>
+
+    <div class="current-card">
+        <div class="label">CURRENT EXERCISE</div>
+        <div class="current-name">Bench Press</div>
+        <div class="current-meta">Chest • Triceps • Strength</div>
+    </div>
+
+    <div class="section-title">
+        Recommended substitutes
+    </div>
+
+    <button class="option-card"
+            onclick="chooseExercise('Dumbbell Bench Press')">
+
+        <div class="exercise-name">
+            Dumbbell Bench Press
+        </div>
+
+        <div class="exercise-meta">
+            Dumbbells • Horizontal push
+        </div>
+
+        <div class="reason">
+            Similar movement pattern
+        </div>
+    </button>
+
+    <button class="option-card"
+            onclick="chooseExercise('Incline Dumbbell Press')">
+
+        <div class="exercise-name">
+            Incline Dumbbell Press
+        </div>
+
+        <div class="exercise-meta">
+            Dumbbells • Upper chest
+        </div>
+
+        <div class="reason">
+            Good alternative if a bench station is unavailable
+        </div>
+    </button>
+
+    <button class="option-card"
+            onclick="chooseExercise('Chest Press Machine')">
+
+        <div class="exercise-name">
+            Chest Press Machine
+        </div>
+
+        <div class="exercise-meta">
+            Machine • Horizontal push
+        </div>
+
+        <div class="reason">
+            More stable option
+        </div>
+    </button>
+
+    <button class="option-card"
+            onclick="chooseExercise('Push-Up')">
+
+        <div class="exercise-name">
+            Push-Up
+        </div>
+
+        <div class="exercise-meta">
+            Bodyweight • Horizontal push
+        </div>
+
+        <div class="reason">
+            Minimal-equipment option
+        </div>
+    </button>
+
+    <div id="message"></div>
+
+</div>
+
+<div class="bottom-nav">
+    <a href="home.html">Home</a>
+    <a href="workout.html" class="active">Workouts</a>
+    <a href="orin.html">ORIN</a>
+    <a href="history.html">History</a>
+    <a href="profile.html">Profile</a>
+</div>
+
+<script>
+    function chooseExercise(name) {
+
+        localStorage.setItem(
+            "arcSubstituteExercise",
+            name
+        );
+
+        document.getElementById("message").textContent =
+            name + " selected.";
+
+        setTimeout(() => {
+            window.location.href = "active-set.html";
+        }, 500);
+    }
+</script>
+
+</body>
+</html>

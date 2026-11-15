@@ -15,6 +15,30 @@ public class ReadinessController {
     @PostMapping("/readiness")
     public String saveReadiness(@RequestBody ReadinessCheck readiness) {
 
+        if (readiness.sleep == null ||
+                readiness.energy == null ||
+                readiness.soreness == null ||
+                readiness.stress == null ||
+                readiness.motivation == null) {
+
+            return "ERROR: All readiness fields are required.";
+        }
+        if (readiness.sleep < 1 || readiness.sleep > 10 ||
+                readiness.energy < 1 || readiness.energy > 10 ||
+                readiness.soreness < 1 || readiness.soreness > 10 ||
+                readiness.stress < 1 || readiness.stress > 10 ||
+                readiness.motivation < 1 || readiness.motivation > 10) {
+
+            return "ERROR: Readiness values must be between 1 and 10.";
+        }
+        if ("Yes".equalsIgnoreCase(readiness.pain) &&
+                (readiness.painDetails == null || readiness.painDetails.trim().isEmpty())) {
+
+            return "ERROR: Please describe the pain or discomfort before continuing.";
+        }
+        if (readiness.orinNotes != null && readiness.orinNotes.length() > 1000) {
+            return "ERROR: ORIN notes cannot exceed 1000 characters.";
+        }
         repository.save(readiness);
 
         System.out.println("Saved Readiness");

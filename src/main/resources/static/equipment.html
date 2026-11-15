@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARC - Equipment & Limits</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+            background: #0e0f10;
+            font-family: "Montserrat", Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 390px;
+            min-height: 100vh;
+            background: #0e0f10;
+            color: #f5f7f7;
+            padding: 34px 22px 24px;
+        }
+
+        .progress {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .progress div {
+            height: 4px;
+            flex: 1;
+            border-radius: 2px;
+            background: #1cfb9e;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            margin-top: 7px;
+            color: #a5a5a7;
+            font-size: 13px;
+        }
+
+        .section {
+            margin-top: 32px;
+        }
+
+        .section-title {
+            margin-bottom: 12px;
+            color: #a5a5a7;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .option {
+            border: none;
+            border-radius: 12px;
+            padding: 13px 16px;
+            background: #2a2d31;
+            color: #f5f7f7;
+            font-family: "Montserrat", sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .option.active {
+            background: #1cfb9e;
+            color: #000;
+        }
+
+        textarea {
+            width: 100%;
+            border: none;
+            outline: none;
+            resize: none;
+            border-radius: 14px;
+            background: #2a2d31;
+            color: white;
+            padding: 16px;
+            font-family: "Montserrat", sans-serif;
+            min-height: 82px;
+        }
+
+        textarea::placeholder {
+            color: #777b80;
+        }
+
+        .finish {
+            width: 100%;
+            height: 58px;
+            margin-top: 58px;
+            border: none;
+            border-radius: 16px;
+            background: #1cfb9e;
+            color: #000;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="progress">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <h1>Where do you train?</h1>
+
+    <p class="subtitle">
+        ORIN will only program what you can use.
+    </p>
+
+    <div class="section">
+        <div class="options">
+            <button class="option active" data-group="location">
+                Commercial gym
+            </button>
+
+            <button class="option" data-group="location">
+                Home gym
+            </button>
+
+            <button class="option" data-group="location">
+                Minimal
+            </button>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Available equipment</div>
+
+        <div class="options" id="equipmentOptions">
+            <button class="option active equipment">Dumbbells</button>
+            <button class="option active equipment">Barbell</button>
+            <button class="option active equipment">Cables</button>
+            <button class="option active equipment">Machines</button>
+            <button class="option equipment">Bands</button>
+            <button class="option equipment">Cardio</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Limitations / injuries</div>
+
+        <textarea id="limitations"
+                  placeholder="Example: right shoulder occasionally bothers me on pressing movements..."></textarea>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Anything ORIN should avoid?</div>
+
+        <textarea id="avoid"
+                  placeholder="Add movement restrictions or preferences..."></textarea>
+    </div>
+
+    <button class="finish" onclick="finishSetup()">
+        Finish Setup
+    </button>
+
+</div>
+
+<script>
+    let locationChoice = "Commercial gym";
+
+    document.querySelectorAll('[data-group="location"]')
+        .forEach(button => {
+
+            button.addEventListener("click", function() {
+
+                document.querySelectorAll('[data-group="location"]')
+                    .forEach(btn => btn.classList.remove("active"));
+
+                this.classList.add("active");
+
+                locationChoice = this.textContent.trim();
+            });
+        });
+
+
+    document.querySelectorAll(".equipment")
+        .forEach(button => {
+
+            button.addEventListener("click", function() {
+                this.classList.toggle("active");
+            });
+        });
+
+
+    function finishSetup() {
+
+        const equipment = [];
+
+        document.querySelectorAll(".equipment.active")
+            .forEach(button => {
+                equipment.push(button.textContent.trim());
+            });
+
+        const setup = {
+            location: locationChoice,
+            equipment: equipment,
+            limitations:
+            document.getElementById("limitations").value,
+            avoid:
+            document.getElementById("avoid").value
+        };
+
+        localStorage.setItem(
+            "arcProfileStep3",
+            JSON.stringify(setup)
+        );
+
+        window.location.href = "home.html";
+    }
+</script>
+
+</body>
+</html>

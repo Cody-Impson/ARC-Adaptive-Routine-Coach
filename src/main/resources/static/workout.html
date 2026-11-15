@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ARC Workout</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+            background: #0e0f10;
+            font-family: "Montserrat", Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 390px;
+            min-height: 100vh;
+            color: white;
+            padding: 30px 22px 95px;
+        }
+
+        .back {
+            color: #1cfb9e;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        h1 {
+            margin: 28px 0 5px;
+            font-size: 29px;
+        }
+
+        .subtitle {
+            color: #a5a5a7;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .goal {
+            margin-top: 9px;
+            color: #1cfb9e;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .equipment {
+            margin-top: 6px;
+            color: #a5a5a7;
+            font-size: 11px;
+        }
+
+        .readiness {
+            margin-top: 6px;
+            color: #a5a5a7;
+            font-size: 11px;
+        }
+
+        .card {
+            background: #202326;
+            border-radius: 15px;
+            padding: 17px;
+            margin-top: 13px;
+        }
+
+        .name {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .meta {
+            color: #a5a5a7;
+            margin-top: 7px;
+            font-size: 12px;
+        }
+
+        .start {
+            width: 100%;
+            height: 58px;
+            margin-top: 25px;
+            border: none;
+            border-radius: 16px;
+            background: #1cfb9e;
+            color: black;
+            font-family: "Montserrat", Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 390px;
+            height: 64px;
+            background: #111315;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #292c2f;
+        }
+
+        .bottom-nav a {
+            color: #a5a5a7;
+            text-decoration: none;
+            font-size: 11px;
+        }
+
+        .bottom-nav a.active {
+            color: #1cfb9e;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <a class="back" href="home.html">
+        ‹ Home
+    </a>
+
+    <h1 id="title">
+        Today's Workout
+    </h1>
+
+    <div class="subtitle">
+        Built around your goal and available equipment.
+    </div>
+
+    <div class="goal" id="goalText"></div>
+
+    <div class="equipment" id="equipmentText"></div>
+
+    <div class="readiness" id="readinessText"></div>
+
+    <div id="exerciseList"></div>
+
+    <button class="start" onclick="startWorkout()">
+        Start Workout
+    </button>
+
+</div>
+
+
+<div class="bottom-nav">
+
+    <a href="home.html">
+        Home
+    </a>
+
+    <a href="workout.html" class="active">
+        Workouts
+    </a>
+
+    <a href="orin.html">
+        ORIN
+    </a>
+
+    <a href="history.html">
+        History
+    </a>
+
+    <a href="profile.html">
+        Profile
+    </a>
+
+</div>
+
+
+<script>
+
+    function getStoredObject(key) {
+
+        try {
+
+            const value =
+                localStorage.getItem(key);
+
+            if (!value) {
+                return {};
+            }
+
+            return JSON.parse(value);
+
+        }
+        catch (error) {
+
+            console.log(
+                "Could not read " + key,
+                error
+            );
+
+            return {};
+        }
+    }
+
+
+    const training =
+        getStoredObject("arcProfileStep2");
+
+    const environment =
+        getStoredObject("arcProfileStep3");
+
+
+    const goal =
+        training.goal ||
+        training.primaryGoal ||
+        "General fitness";
+
+
+    let equipment =
+        environment.equipment ||
+        environment.availableEquipment ||
+        [];
+
+
+    if (!Array.isArray(equipment)) {
+        equipment = [];
+    }
+
+
+    const equipmentLower =
+        equipment.map(function(item) {
+            return String(item).toLowerCase();
+        });
+
+
+    function hasEquipment(name) {
+
+        return equipmentLower.includes(
+            name.toLowerCase()
+        );
+    }
+
+
+    /* -----------------------------
+       EXERCISE HELPERS
+    ----------------------------- */
+
+    function repsExercise(
+        name,
+        sets,
+        reps,
+        weight,
+        equipmentName
+    ) {
+
+        return {
+            name: name,
+            sets: sets,
+            reps: reps,
+            weight: weight || 0,
+            type: "reps",
+            unit: "reps",
+            equipment: equipmentName || "Bodyweight"
+        };
+    }
+
+
+    function timedExercise(
+        name,
+        sets,
+        amount,
+        unit,
+        equipmentName
+    ) {
+
+        return {
+            name: name,
+            sets: sets,
+            reps: amount,
+            weight: 0,
+            type: "time",
+            unit: unit,
+            equipment: equipmentName || "Bodyweight"
+        };
+    }
+
+
+    /* -----------------------------
+       STRENGTH
+    ----------------------------- */
+
+    function strengthWorkout() {
+
+        const list = [];
+
+
+        if (hasEquipment("Barbell")) {
+
+            list.push(
+                repsExercise(
+                    "Bench Press",
+                    4,
+                    8,
+                    185,
+                    "Barbell"
+                )
+            );
+
+        }
+
+        else if (hasEquipment("Dumbbells")) {
+
+            list.push(
+                repsExercise(
+                    "Dumbbell Bench Press",
+                    4,
+                    8,
+                    50,
+                    "Dumbbells"
+                )
+            );
+
+        }
+
+        else {
+
+            list.push(
+                repsExercise(
+                    "Push-Up",
+                    4,
+                    12,
+                    0,
+                    "Bodyweight"
+                )
+            );
+
+        }
+
+
+        if (hasEquipment("Cables")) {
+
+            list.push(
+                repsExercise(
+                    "Seated Cable Row",
+                    3,
+                    10,
+                    90,
+                    "Cables"
+                )
+            );
+
+        }
+
+        else {
+
+            list.push(
+                repsExercise(
+                    "Inverted Row",
+                    3,
+                    10,
+                    0,
+                    "Bodyweight"
+                )
+            );
+
+        }
+
+
+        if (hasEquipment("Dumbbells")) {
+
+            list.push(
+                repsExercise(
+                    "Dumbbell Goblet Squat",
+                    3,
+                    10,
+                    40,
+                    "Dumbbells"
+                )
+            );
+
+        }
+
+        else {
+
+            list.push(
+                repsExercise(
+                    "Bodyweight Squat",
+                    3,
+                    15,
+                    0,
+                    "Bodyweight"
+                )
+            );
+
+        }
+
+
+        list.push(
+            repsExercise(
+                "Alternating Reverse Lunges",
+                3,
+                12,
+                0,
+                "Bodyweight"
+            )
+        );
+
+
+        list.push(
+            timedExercise(
+                "Plank",
+                3,
+                45,
+                "sec",
+                "Bodyweight"
+            )
+        );
+
+
+        return {
+            title: "Strength Training",
+            exercises: list
+        };
+    }
+
+
+    /* -----------------------------
+       BUILD MUSCLE
+    ----------------------------- */
+
+    function muscleWorkout() {
+
+        const list = [];
+
+
+        if (hasEquipment("Dumbbells")) {
+
+            list.push(
+                repsExercise(
+                    "Incline Dumbbell Press",
+                    4,
+                    10,
+                    45,
+                    "Dumbbells"
+                )
+            );
+
+        }
+
+        else if (hasEquipment("Machines")) {
+
+            list.push(
+                repsExercise(
+                    "Seated Chest Press Machine",
+                    4,
+                    10,
+                    80,
+                    "Machines"
+                )
+            );
+
+        }
+
+        else {
+
+            list.push(
+                repsExercise(
+                    "Push-Up",
+                    4,
+                    15,
+                    0,
+                    "Bodyweight"
+                )
+            );
+
+        }
+
+
+        if (hasEquipment("Cables")) {
+
+            list.push(
+                repsExercise(
+                    "Seated Cable Row",
+                    4,
+                    10,
+                    90,
+                    "Cables"
+                )
+            );
+
+            list.push(
+                repsExercise(
+                    "Cable Biceps Curl",
+                    3,
+                    12,
+                    40,
+                    "Cables"
+                )
+            );
+
+            list.push(
+                repsExercise(
+                    "Cable Rope Triceps Pushdown",
+                    3,
+                    12,
+                    45,
+                    "Cables"
+                )
+            );
+
+        }
+
+        else if (hasEquipment("Dumbbells")) {
+
+            list.push(
+                repsExercise(
+                    "One-Arm Dumbbell Row",
+                    4,
+                    10,
+                    45,
+                    "Dumbbells"
+                )
+            );
+
+            list.push(
+                repsExercise(
+                    "Dumbbell Biceps Curl",
+                    3,
+                    12,
+                    25,
+                    "Dumbbells"
+                )
+            );
+
+            list.push(
+                repsExercise(
+                    "Dumbbell Triceps Extension",
+                    3,
+                    12,
+                    25,
+                    "Dumbbells"
+                )
+            );
+
+        }
+
+        else {
+
+            list.push(
+                repsExercise(
+                    "Inverted Row",
+                    4,
+                    10,
+                    0,
+                    "Bodyweight"
+                )
+            );
+
+            list.push(
+                repsExercise(
+                    "Close-Grip Push-Ups",
+                    3,
+                    12,
+                    0,
+                    "Bodyweight"
+                )
+            );
+
+        }
+
+
+        list.push(
+            repsExercise(
+                "Bodyweight Squat",
+                3,
+                15,
+                0,
+                "Bodyweight"
+            )
+        );
+
+
+        return {
+            title: "Muscle Building",
+            exercises: list.slice(0, 5)
+        };
+    }
+
+
+    /* -----------------------------
+       LOSE FAT
+    ----------------------------- */
+
+    function fatLossWorkout() {
+
+        const list = [
+
+            repsExercise(
+                "Bodyweight Squat",
+                3,
+                15,
+                0,
+                "Bodyweight"
+            ),
+
+            repsExercise(
+                "Push-Up",
+                3,
+                12,
+                0,
+                "Bodyweight"
+            ),
+
+            repsExercise(
+                "Alternating Reverse Lunges",
+                3,
+                12,
+                0,
+                "Bodyweight"
+            )
+
+        ];
+
+
+        if (hasEquipment("Cardio")) {
+
+            list.push(
+                timedExercise(
+                    "Stationary Bike",
+                    3,
+                    5,
+                    "min",
+                    "Cardio"
+                )
+            );
+
+        }
+
+        else {
+
+            list.push(
+                timedExercise(
+                    "March or Jog in Place",
+                    3,
+                    3,
+                    "min",
+                    "Bodyweight"
+                )
+            );
+
+        }
+
+
+        list.push(
+            repsExercise(
+                "Mountain Climbers",
+                3,
+                20,
+                0,
+                "Bodyweight"
+            )
+        );
+
+
+        return {
+            title: "Full Body Conditioning",
+            exercises: list
+        };
+    }
+
+
+    /* -----------------------------
+       ENDURANCE
+    ----------------------------- */
+
+    function enduranceWorkout() {
+
+        const list = [];
+
+
+        if (hasEquipment("Cardio")) {
+
+            list.push(
+                timedExercise(
+                    "Stationary Bike",
+                    3,
+                    8,
+                    "min",
+                    "Cardio"
+                )
+            );
+
+            list.push(
+                timedExercise(
+                    "Walking",
+                    3,
+                    10,
+                    "min",
+                    "Cardio"
+                )
+            );
+
+        }
+
+        else {
+
+            list.push(
+                timedExercise(
+                    "March or Jog in Place",
+                    3,
+                    5,
+                    "min",
+                    "Bodyweight"
+                )
+            );
+
+            list.push(
+                repsExercise(
+                    "Jumping Jacks",
+                    3,
+                    25,
+                    0,
+                    "Bodyweight"
+                )
+            );
+
+        }
+
+
+        if (hasEquipment("Cables")) {
+
+            list.push(
+                repsExercise(
+                    "Seated Cable Row",
+                    3,
+                    15,
+                    60,
+                    "Cables"
+                )
+            );
+
+        }
+
+        else {
+
+            list.push(
+                repsExercise(
+                    "Bodyweight Lunge",
+                    3,
+                    15,
+                    0,
+                    "Bodyweight"
+                )
+            );
+
+        }
+
+
+        list.push(
+            repsExercise(
+                "Burpees",
+                3,
+                10,
+                0,
+                "Bodyweight"
+            )
+        );
+
+
+        list.push(
+            timedExercise(
+                "Plank",
+                3,
+                45,
+                "sec",
+                "Bodyweight"
+            )
+        );
+
+
+        return {
+            title: "Endurance Conditioning",
+            exercises: list
+        };
+    }
+
+
+    /* -----------------------------
+       GENERAL FITNESS
+    ----------------------------- */
+
+    function generalWorkout() {
+
+        return {
+
+            title:
+                "Balanced Full Body",
+
+            exercises: [
+
+                repsExercise(
+                    "Bodyweight Squat",
+                    3,
+                    12,
+                    0,
+                    "Bodyweight"
+                ),
+
+                repsExercise(
+                    "Push-Up",
+                    3,
+                    10,
+                    0,
+                    "Bodyweight"
+                ),
+
+                repsExercise(
+                    "Alternating Reverse Lunges",
+                    3,
+                    10,
+                    0,
+                    "Bodyweight"
+                ),
+
+                timedExercise(
+                    "Walking",
+                    3,
+                    5,
+                    "min",
+                    "Bodyweight"
+                ),
+
+                timedExercise(
+                    "Plank",
+                    3,
+                    30,
+                    "sec",
+                    "Bodyweight"
+                )
+
+            ]
+
+        };
+    }
+
+
+    /* -----------------------------
+       CHOOSE WORKOUT
+    ----------------------------- */
+
+    function chooseWorkout() {
+
+        const value =
+            goal.toLowerCase();
+
+
+        if (value.includes("strength")) {
+            return strengthWorkout();
+        }
+
+
+        if (value.includes("muscle")) {
+            return muscleWorkout();
+        }
+
+
+        if (value.includes("fat")) {
+            return fatLossWorkout();
+        }
+
+
+        if (value.includes("endurance")) {
+            return enduranceWorkout();
+        }
+
+
+        return generalWorkout();
+    }
+
+
+    const workout =
+        chooseWorkout();
+
+
+    /* -----------------------------
+       READINESS
+    ----------------------------- */
+
+    const readinessResult =
+        localStorage.getItem(
+            "arcReadinessResult"
+        ) || "";
+
+
+    let readinessText =
+        "No readiness check completed";
+
+
+    const upperReadiness =
+        readinessResult.toUpperCase();
+
+
+    if (
+        upperReadiness.includes("RECOVERY") ||
+        upperReadiness.includes("RECOVER FOCUSED")
+    ) {
+
+        readinessText =
+            "Recovery day • reduced intensity";
+
+    }
+
+    else if (
+        upperReadiness.includes("MODIFY") ||
+        upperReadiness.includes("LIGHT WORKOUT") ||
+        upperReadiness.includes("REDUCED INTENSITY")
+    ) {
+
+        readinessText =
+            "Modified workout • about 70% intensity";
+
+    }
+
+    else if (
+        upperReadiness.includes("NORMAL WORKOUT") ||
+        upperReadiness.includes("READY")
+    ) {
+
+        readinessText =
+            "Ready • normal intensity";
+
+    }
+
+
+    /* -----------------------------
+       SHOW WORKOUT
+    ----------------------------- */
+
+    document.getElementById(
+        "title"
+    ).textContent =
+        workout.title;
+
+
+    document.getElementById(
+        "goalText"
+    ).textContent =
+        "Goal: " + goal;
+
+
+    document.getElementById(
+        "equipmentText"
+    ).textContent =
+        equipment.length > 0
+            ? "Equipment: " + equipment.join(", ")
+            : "Equipment: Bodyweight";
+
+
+    document.getElementById(
+        "readinessText"
+    ).textContent =
+        readinessText;
+
+
+    const exerciseList =
+        document.getElementById(
+            "exerciseList"
+        );
+
+
+    exerciseList.innerHTML = "";
+
+
+    workout.exercises.forEach(
+        function(exercise) {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "card";
+
+
+            let meta = "";
+
+
+            if (exercise.type === "time") {
+
+                meta =
+                    exercise.sets +
+                    " rounds • " +
+                    exercise.reps +
+                    " " +
+                    exercise.unit;
+
+            }
+
+            else if (exercise.weight > 0) {
+
+                meta =
+                    exercise.sets +
+                    " × " +
+                    exercise.reps +
+                    " • " +
+                    exercise.weight +
+                    " lb";
+
+            }
+
+            else {
+
+                meta =
+                    exercise.sets +
+                    " × " +
+                    exercise.reps +
+                    " • Bodyweight";
+
+            }
+
+
+            card.innerHTML =
+                "<div class='name'>" +
+                exercise.name +
+                "</div>" +
+
+                "<div class='meta'>" +
+                meta +
+                "</div>";
+
+
+            exerciseList.appendChild(
+                card
+            );
+
+        }
+    );
+
+
+    /* -----------------------------
+       START WORKOUT
+    ----------------------------- */
+
+    function startWorkout() {
+
+        localStorage.setItem(
+            "arcCurrentWorkout",
+            JSON.stringify(workout)
+        );
+
+
+        localStorage.setItem(
+            "arcExerciseIndex",
+            "0"
+        );
+
+
+        localStorage.setItem(
+            "arcCurrentSet",
+            "1"
+        );
+
+
+        localStorage.removeItem(
+            "arcSubstituteExercise"
+        );
+
+
+        localStorage.removeItem(
+            "arcWorkoutComplete"
+        );
+
+
+        window.location.href =
+            "active-set.html";
+    }
+
+</script>
+
+</body>
+</html>

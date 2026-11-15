@@ -1,116 +1,236 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>ARC Readiness Check</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARC - Readiness</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+            background: #0e0f10;
+            font-family: "Montserrat", Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 390px;
+            min-height: 100vh;
+            background: #0e0f10;
+            color: #f5f7f7;
+            padding: 24px 22px 40px;
+        }
+
+        .back {
+            color: #1cfb9e;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        h1 {
+            margin: 22px 0 5px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #a5a5a7;
+            font-size: 13px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 26px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #a5a5a7;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            border: none;
+            outline: none;
+            border-radius: 12px;
+            background: #2a2d31;
+            color: white;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        input, select {
+            height: 52px;
+            padding: 0 14px;
+            font-size: 16px;
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: none;
+            padding: 14px;
+        }
+
+        .full {
+            margin-top: 18px;
+        }
+
+        button {
+            width: 100%;
+            height: 58px;
+            margin-top: 24px;
+            border: none;
+            border-radius: 16px;
+            background: #1cfb9e;
+            color: #000;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .result {
+            margin-top: 22px;
+            padding: 18px;
+            border-radius: 16px;
+            background: #202326;
+            white-space: pre-line;
+            line-height: 1.5;
+            font-size: 13px;
+        }
+
+        .result-title {
+            color: #1cfb9e;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+    </style>
 </head>
 
 <body>
 
-<h1>ARC Readiness Check</h1>
+<div class="app">
 
-<label>Sleep Quality (1-10):</label>
-<input id="sleep" type="number" min="1" max="10">
-<br><br>
+    <a href="home.html" class="back">‹ Home</a>
 
-<label>Energy Level (1-10):</label>
-<input id="energy" type="number" min="1" max="10">
-<br><br>
+    <h1>Daily Readiness</h1>
 
-<label>Soreness (1-10):</label>
-<input id="soreness" type="number" min="1" max="10">
-<br><br>
+    <div class="subtitle">
+        Tell ARC how you're feeling before training.
+    </div>
 
-<label>Stress (1-10):</label>
-<input id="stress" type="number" min="1" max="10">
-<br><br>
+    <div class="grid">
 
-<label>Motivation (1-10):</label>
-<input id="motivation" type="number" min="1" max="10">
-<br><br>
+        <div>
+            <label>Sleep Quality (1-10)</label>
+            <input id="sleep" type="number" min="1" max="10" value="7">
+        </div>
 
-<label>Any pain or discomfort?</label>
-<select id="pain" onchange="showPainBox()">
-    <option value="No">No</option>
-    <option value="Yes">Yes</option>
-</select>
+        <div>
+            <label>Energy (1-10)</label>
+            <input id="energy" type="number" min="1" max="10" value="7">
+        </div>
 
-<input id="painDetails"
-       type="text"
-       placeholder="Describe pain or discomfort"
-       style="display:none;">
-<br><br>
+        <div>
+            <label>Soreness (1-10)</label>
+            <input id="soreness" type="number" min="1" max="10" value="4">
+        </div>
 
-<label>Anything to share with ORIN?</label>
-<br>
-<textarea id="orinNotes"
-          rows="4"
-          cols="40"
-          placeholder="Tell ORIN anything that may affect today's workout"></textarea>
-<br><br>
+        <div>
+            <label>Stress (1-10)</label>
+            <input id="stress" type="number" min="1" max="10" value="4">
+        </div>
 
-<button id="save">Save Readiness</button>
+        <div>
+            <label>Motivation (1-10)</label>
+            <input id="motivation" type="number" min="1" max="10" value="7">
+        </div>
 
-<p id="message"></p>
-<h3 id="recommendation"></h3>
+        <div>
+            <label>Pain / discomfort?</label>
+            <select id="pain" onchange="togglePain()">
+                <option>No</option>
+                <option>Yes</option>
+            </select>
+        </div>
+
+    </div>
+
+    <div class="full" id="painArea" style="display:none;">
+        <label>Describe pain or discomfort</label>
+        <input id="painDetails" type="text">
+    </div>
+
+    <div class="full">
+        <label>Anything to share with ORIN?</label>
+        <textarea id="orinNotes"
+                  maxlength="1000"
+                  placeholder="Anything that may affect today's workout..."></textarea>
+    </div>
+
+    <button onclick="submitReadiness()">
+        Check Readiness
+    </button>
+
+    <div class="result" id="result" style="display:none;">
+        <div class="result-title">ORIN Recommendation</div>
+        <div id="recommendation"></div>
+    </div>
+
+</div>
 
 <script>
 
-    function showPainBox() {
+    function togglePain() {
+        const pain = document.getElementById("pain").value;
 
-        let pain = document.getElementById("pain").value;
-        let painDetails = document.getElementById("painDetails");
-
-        if (pain == "Yes") {
-            painDetails.style.display = "inline";
-        } else {
-            painDetails.style.display = "none";
-        }
+        document.getElementById("painArea").style.display =
+            pain === "Yes" ? "block" : "none";
     }
 
+    function submitReadiness() {
 
-    document.getElementById("save").onclick = function() {
-
-        let sleep = document.getElementById("sleep").value;
-        let energy = document.getElementById("energy").value;
-        let soreness = document.getElementById("soreness").value;
-        let stress = document.getElementById("stress").value;
-        let motivation = document.getElementById("motivation").value;
-        let pain = document.getElementById("pain").value;
-        let orinNotes = document.getElementById("orinNotes").value;
-
-        let painDetails = "";
-
-        if (pain == "Yes") {
-            painDetails = document.getElementById("painDetails").value;
-        }
-        let readiness = {
-            sleep: sleep,
-            energy: energy,
-            soreness: soreness,
-            stress: stress,
-            motivation: motivation,
-            pain: pain,
-            painDetails: painDetails,
-            orinNotes: orinNotes};
-
-        document.getElementById("message").innerHTML =
-            "Sleep: " + sleep + "/10<br>" +
-            "Energy: " + energy + "/10<br>" +
-            "Soreness: " + soreness + "/10<br>" +
-            "Stress: " + stress + "/10<br>" +
-            "Motivation: " + motivation + "/10<br>" +
-            "Pain: " + pain + "<br>" +
-            "Pain Details: " + painDetails + "<br>" +
-            "Notes for ORIN: " + orinNotes;
+        const readiness = {
+            sleep: Number(document.getElementById("sleep").value),
+            energy: Number(document.getElementById("energy").value),
+            soreness: Number(document.getElementById("soreness").value),
+            stress: Number(document.getElementById("stress").value),
+            motivation: Number(document.getElementById("motivation").value),
+            pain: document.getElementById("pain").value,
+            painDetails: document.getElementById("painDetails").value,
+            orinNotes: document.getElementById("orinNotes").value
+        };
 
         fetch("/readiness", {
             method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(readiness)})
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(readiness)
+        })
             .then(response => response.text())
-            .then(data => {console.log(data);
-                document.getElementById("recommendation").innerText = "Orin Recommendation: " + data;
-            });};
+            .then(data => {
+
+                document.getElementById("result").style.display = "block";
+                document.getElementById("recommendation").textContent = data;
+
+                localStorage.setItem("arcReadinessResult", data);
+            });
+    }
 
 </script>
 
