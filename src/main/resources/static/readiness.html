@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARC - Readiness</title>
+    <title>ARC Readiness</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
           rel="stylesheet">
@@ -21,102 +21,123 @@
         body {
             display: flex;
             justify-content: center;
+            color: white;
         }
 
         .app {
             width: 100%;
             max-width: 390px;
             min-height: 100vh;
-            background: #0e0f10;
-            color: #f5f7f7;
-            padding: 24px 22px 40px;
+            padding: 28px 22px 80px;
         }
 
         .back {
             color: #1cfb9e;
             text-decoration: none;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
         }
 
         h1 {
-            margin: 22px 0 5px;
-            font-size: 28px;
+            margin: 28px 0 4px;
+            font-size: 29px;
         }
 
         .subtitle {
             color: #a5a5a7;
             font-size: 13px;
+            margin-bottom: 25px;
         }
 
         .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 14px;
-            margin-top: 26px;
         }
 
         label {
             display: block;
-            margin-bottom: 7px;
-            color: #a5a5a7;
+            color: #b0b2b5;
             font-size: 11px;
             font-weight: 600;
+            margin-bottom: 7px;
         }
 
         input, select, textarea {
             width: 100%;
             border: none;
             outline: none;
-            border-radius: 12px;
+            border-radius: 13px;
             background: #2a2d31;
             color: white;
-            font-family: "Montserrat", sans-serif;
+            font-family: "Montserrat";
+            font-size: 14px;
+            padding: 0 14px;
         }
 
         input, select {
             height: 52px;
-            padding: 0 14px;
-            font-size: 16px;
         }
 
         textarea {
             min-height: 80px;
-            resize: none;
-            padding: 14px;
+            resize: vertical;
+            padding-top: 14px;
+        }
+
+        .field {
+            margin-bottom: 16px;
         }
 
         .full {
-            margin-top: 18px;
+            margin-top: 16px;
         }
 
         button {
             width: 100%;
-            height: 58px;
-            margin-top: 24px;
             border: none;
-            border-radius: 16px;
-            background: #1cfb9e;
-            color: #000;
-            font-size: 17px;
+            border-radius: 15px;
+            font-family: "Montserrat";
             font-weight: 700;
             cursor: pointer;
         }
 
-        .result {
+        .check {
+            height: 58px;
             margin-top: 22px;
-            padding: 18px;
-            border-radius: 16px;
+            background: #1cfb9e;
+            color: black;
+            font-size: 17px;
+        }
+
+        .next {
+            height: 55px;
+            margin-top: 14px;
+            background: #1cfb9e;
+            color: black;
+            font-size: 15px;
+            display: none;
+        }
+
+        .result {
             background: #202326;
-            white-space: pre-line;
-            line-height: 1.5;
-            font-size: 13px;
+            border-radius: 16px;
+            padding: 18px;
+            margin-top: 22px;
+            display: none;
         }
 
         .result-title {
             color: #1cfb9e;
+            font-size: 13px;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        #resultText {
+            white-space: pre-line;
+            font-size: 13px;
+            line-height: 1.55;
         }
     </style>
 </head>
@@ -125,7 +146,7 @@
 
 <div class="app">
 
-    <a href="home.html" class="back">‹ Home</a>
+    <a class="back" href="home.html">‹ Home</a>
 
     <h1>Daily Readiness</h1>
 
@@ -135,101 +156,181 @@
 
     <div class="grid">
 
-        <div>
+        <div class="field">
             <label>Sleep Quality (1-10)</label>
-            <input id="sleep" type="number" min="1" max="10" value="7">
+            <input id="sleep" type="number" min="1" max="10">
         </div>
 
-        <div>
+        <div class="field">
             <label>Energy (1-10)</label>
-            <input id="energy" type="number" min="1" max="10" value="7">
+            <input id="energy" type="number" min="1" max="10">
         </div>
 
-        <div>
+        <div class="field">
             <label>Soreness (1-10)</label>
-            <input id="soreness" type="number" min="1" max="10" value="4">
+            <input id="soreness" type="number" min="1" max="10">
         </div>
 
-        <div>
+        <div class="field">
             <label>Stress (1-10)</label>
-            <input id="stress" type="number" min="1" max="10" value="4">
+            <input id="stress" type="number" min="1" max="10">
         </div>
 
-        <div>
+        <div class="field">
             <label>Motivation (1-10)</label>
-            <input id="motivation" type="number" min="1" max="10" value="7">
+            <input id="motivation" type="number" min="1" max="10">
         </div>
 
-        <div>
+        <div class="field">
             <label>Pain / discomfort?</label>
+
             <select id="pain" onchange="togglePain()">
-                <option>No</option>
-                <option>Yes</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
             </select>
         </div>
 
     </div>
 
-    <div class="full" id="painArea" style="display:none;">
+    <div id="painBox" class="field full" style="display:none;">
         <label>Describe pain or discomfort</label>
         <input id="painDetails" type="text">
     </div>
 
-    <div class="full">
+    <div class="field full">
         <label>Anything to share with ORIN?</label>
-        <textarea id="orinNotes"
-                  maxlength="1000"
-                  placeholder="Anything that may affect today's workout..."></textarea>
+
+        <textarea
+                id="notes"
+                maxlength="1000"
+                placeholder="Anything that may affect today's workout..."></textarea>
     </div>
 
-    <button onclick="submitReadiness()">
+    <button class="check" onclick="checkReadiness()">
         Check Readiness
     </button>
 
-    <div class="result" id="result" style="display:none;">
-        <div class="result-title">ORIN Recommendation</div>
-        <div id="recommendation"></div>
+    <div id="resultCard" class="result">
+
+        <div class="result-title">
+            ORIN Recommendation
+        </div>
+
+        <div id="resultText"></div>
+
     </div>
+
+    <button id="nextButton"
+            class="next"
+            onclick="window.location.href='workout.html'">
+        Continue to Today's Workout →
+    </button>
 
 </div>
 
 <script>
 
     function togglePain() {
-        const pain = document.getElementById("pain").value;
 
-        document.getElementById("painArea").style.display =
-            pain === "Yes" ? "block" : "none";
+        const pain =
+            document.getElementById("pain").value;
+
+        document.getElementById("painBox").style.display =
+            pain === "Yes"
+                ? "block"
+                : "none";
     }
 
-    function submitReadiness() {
 
-        const readiness = {
-            sleep: Number(document.getElementById("sleep").value),
-            energy: Number(document.getElementById("energy").value),
-            soreness: Number(document.getElementById("soreness").value),
-            stress: Number(document.getElementById("stress").value),
-            motivation: Number(document.getElementById("motivation").value),
-            pain: document.getElementById("pain").value,
-            painDetails: document.getElementById("painDetails").value,
-            orinNotes: document.getElementById("orinNotes").value
+    async function checkReadiness() {
+
+        const data = {
+
+            sleepQuality:
+                Number(document.getElementById("sleep").value),
+
+            energy:
+                Number(document.getElementById("energy").value),
+
+            soreness:
+                Number(document.getElementById("soreness").value),
+
+            stress:
+                Number(document.getElementById("stress").value),
+
+            motivation:
+                Number(document.getElementById("motivation").value),
+
+            pain:
+            document.getElementById("pain").value,
+
+            painDetails:
+                document.getElementById("painDetails").value.trim(),
+
+            notes:
+                document.getElementById("notes").value.trim()
+
         };
 
-        fetch("/readiness", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(readiness)
-        })
-            .then(response => response.text())
-            .then(data => {
 
-                document.getElementById("result").style.display = "block";
-                document.getElementById("recommendation").textContent = data;
+        try {
 
-                localStorage.setItem("arcReadinessResult", data);
-            });
+            const response =
+                await fetch("/readiness", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(data)
+
+                });
+
+
+            const text =
+                await response.text();
+
+
+            document.getElementById("resultCard").style.display =
+                "block";
+
+            document.getElementById("resultText").textContent =
+                text;
+
+
+            if (response.ok) {
+
+                localStorage.setItem(
+                    "arcReadinessResult",
+                    text
+                );
+
+
+                document.getElementById("nextButton").style.display =
+                    "block";
+
+            }
+            else {
+
+                document.getElementById("nextButton").style.display =
+                    "none";
+
+            }
+
+        }
+        catch (error) {
+
+            document.getElementById("resultCard").style.display =
+                "block";
+
+            document.getElementById("resultText").textContent =
+                "Unable to complete readiness check.";
+
+        }
+
     }
 
 </script>

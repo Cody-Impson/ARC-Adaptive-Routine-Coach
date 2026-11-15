@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARC - Substitute Exercise</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ARC Substitute Exercise</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
           rel="stylesheet">
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -23,45 +28,43 @@
         body {
             display: flex;
             justify-content: center;
+            color: white;
         }
 
         .app {
             width: 100%;
-            max-width: 390px;
+            max-width: 430px;
             min-height: 100vh;
-            background: #0e0f10;
-            color: #f5f7f7;
-            padding: 18px 22px 90px;
+            padding: 25px 20px 70px;
         }
 
-        .back-btn {
-            height: 38px;
-            border: none;
-            border-radius: 12px;
+        .back {
+            display: inline-block;
             background: #2a2d31;
             color: #1cfb9e;
-            padding: 0 14px;
+            text-decoration: none;
+            border-radius: 11px;
+            padding: 10px 13px;
             font-size: 12px;
             font-weight: 600;
-            cursor: pointer;
         }
 
         h1 {
-            margin: 22px 0 4px;
+            margin: 28px 0 5px;
             font-size: 28px;
         }
 
         .subtitle {
             color: #a5a5a7;
             font-size: 13px;
-            line-height: 1.45;
+            line-height: 1.5;
         }
 
-        .current-card {
-            margin-top: 24px;
-            padding: 18px;
-            border-radius: 16px;
+        .current {
             background: #202326;
+            border-radius: 15px;
+            padding: 17px;
+            margin-top: 24px;
         }
 
         .label {
@@ -71,209 +74,722 @@
         }
 
         .current-name {
-            margin-top: 7px;
             font-size: 20px;
             font-weight: 700;
+            margin-top: 7px;
         }
 
-        .current-meta {
-            margin-top: 5px;
-            color: #a5a5a7;
-            font-size: 12px;
-        }
-
-        .section-title {
-            margin-top: 28px;
-            margin-bottom: 12px;
+        .heading {
             color: #a5a5a7;
             font-size: 12px;
             font-weight: 600;
+            margin: 28px 0 12px;
         }
 
-        .option-card {
+        .option {
             width: 100%;
-            border: none;
             text-align: left;
-            margin-bottom: 12px;
-            padding: 17px;
-            border-radius: 14px;
             background: #2a2d31;
-            color: #f5f7f7;
-            font-family: "Montserrat", Arial, sans-serif;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 17px;
+            margin-bottom: 12px;
+            font-family: "Montserrat";
             cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .option-card:hover {
-            background: #34383d;
+        .option:active {
+            transform: scale(.98);
+            background: #35393e;
         }
 
-        .exercise-name {
+        .name {
             font-size: 16px;
             font-weight: 700;
         }
 
-        .exercise-meta {
-            margin-top: 6px;
+        .meta {
             color: #a5a5a7;
             font-size: 12px;
+            margin-top: 6px;
         }
 
         .reason {
-            margin-top: 8px;
             color: #1cfb9e;
             font-size: 11px;
+            margin-top: 7px;
             font-weight: 600;
         }
 
         #message {
-            min-height: 24px;
-            margin-top: 18px;
-            color: #1cfb9e;
             text-align: center;
-            font-size: 13px;
-        }
-
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            max-width: 390px;
-            height: 64px;
-            background: #111315;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-top: 1px solid #292c2f;
-        }
-
-        .bottom-nav a {
-            color: #a5a5a7;
-            text-decoration: none;
-            font-size: 11px;
-        }
-
-        .bottom-nav a.active {
             color: #1cfb9e;
+            font-size: 12px;
+            margin-top: 18px;
         }
+
     </style>
+
 </head>
 
 <body>
 
 <div class="app">
 
-    <button class="back-btn"
-            onclick="window.location.href='active-set.html'">
-        ‹ Bench Press
-    </button>
+    <a class="back"
+       href="active-set.html">
+        ‹ Current Exercise
+    </a>
 
-    <h1>Substitute Exercise</h1>
+
+    <h1>
+        Substitute Exercise
+    </h1>
+
 
     <div class="subtitle">
-        Choose a similar movement that fits your equipment and current training needs.
+        Choose another movement and ARC will replace
+        the current exercise in today's workout.
     </div>
 
-    <div class="current-card">
-        <div class="label">CURRENT EXERCISE</div>
-        <div class="current-name">Bench Press</div>
-        <div class="current-meta">Chest • Triceps • Strength</div>
+
+    <div class="current">
+
+        <div class="label">
+            CURRENT EXERCISE
+        </div>
+
+        <div class="current-name"
+             id="currentName">
+            Exercise
+        </div>
+
     </div>
 
-    <div class="section-title">
+
+    <div class="heading">
         Recommended substitutes
     </div>
 
-    <button class="option-card"
-            onclick="chooseExercise('Dumbbell Bench Press')">
 
-        <div class="exercise-name">
-            Dumbbell Bench Press
-        </div>
+    <div id="options"></div>
 
-        <div class="exercise-meta">
-            Dumbbells • Horizontal push
-        </div>
-
-        <div class="reason">
-            Similar movement pattern
-        </div>
-    </button>
-
-    <button class="option-card"
-            onclick="chooseExercise('Incline Dumbbell Press')">
-
-        <div class="exercise-name">
-            Incline Dumbbell Press
-        </div>
-
-        <div class="exercise-meta">
-            Dumbbells • Upper chest
-        </div>
-
-        <div class="reason">
-            Good alternative if a bench station is unavailable
-        </div>
-    </button>
-
-    <button class="option-card"
-            onclick="chooseExercise('Chest Press Machine')">
-
-        <div class="exercise-name">
-            Chest Press Machine
-        </div>
-
-        <div class="exercise-meta">
-            Machine • Horizontal push
-        </div>
-
-        <div class="reason">
-            More stable option
-        </div>
-    </button>
-
-    <button class="option-card"
-            onclick="chooseExercise('Push-Up')">
-
-        <div class="exercise-name">
-            Push-Up
-        </div>
-
-        <div class="exercise-meta">
-            Bodyweight • Horizontal push
-        </div>
-
-        <div class="reason">
-            Minimal-equipment option
-        </div>
-    </button>
 
     <div id="message"></div>
 
 </div>
 
-<div class="bottom-nav">
-    <a href="home.html">Home</a>
-    <a href="workout.html" class="active">Workouts</a>
-    <a href="orin.html">ORIN</a>
-    <a href="history.html">History</a>
-    <a href="profile.html">Profile</a>
-</div>
 
 <script>
-    function chooseExercise(name) {
+
+    function getWorkout() {
+
+        try {
+
+            return JSON.parse(
+                localStorage.getItem(
+                    "arcCurrentWorkout"
+                )
+            );
+
+        }
+        catch {
+
+            return null;
+
+        }
+
+    }
+
+
+    let workout =
+        getWorkout();
+
+
+    let index =
+        Number(
+            localStorage.getItem(
+                "arcSubstituteIndex"
+            )
+        );
+
+
+    if (
+        !workout ||
+        !Array.isArray(workout.exercises) ||
+        Number.isNaN(index) ||
+        !workout.exercises[index]
+    ) {
+
+        window.location.href =
+            "active-set.html";
+
+    }
+
+
+    const original =
+        workout.exercises[index];
+
+
+    document.getElementById(
+        "currentName"
+    ).textContent =
+        original.name;
+
+
+
+    function makeExercise(
+        name,
+        sets,
+        reps,
+        weight,
+        equipment,
+        type,
+        unit
+    ) {
+
+        return {
+
+            name:
+            name,
+
+            sets:
+                sets || original.sets || 3,
+
+            reps:
+                reps || original.reps || 10,
+
+            weight:
+                weight || 0,
+
+            equipment:
+                equipment || "Bodyweight",
+
+            type:
+                type || "reps",
+
+            unit:
+                unit || "reps"
+
+        };
+
+    }
+
+
+
+    function chooseSubstitutes() {
+
+        const name =
+            original.name.toLowerCase();
+
+
+        if (
+            name.includes("press") ||
+            name.includes("push-up") ||
+            name.includes("push up")
+        ) {
+
+            return [
+
+                makeExercise(
+                    "Dumbbell Bench Press",
+                    original.sets,
+                    10,
+                    40,
+                    "Dumbbells"
+                ),
+
+                makeExercise(
+                    "Incline Dumbbell Press",
+                    original.sets,
+                    10,
+                    35,
+                    "Dumbbells"
+                ),
+
+                makeExercise(
+                    "Seated Chest Press Machine",
+                    original.sets,
+                    10,
+                    70,
+                    "Machines"
+                ),
+
+                makeExercise(
+                    "Push-Up",
+                    original.sets,
+                    12,
+                    0,
+                    "Bodyweight"
+                )
+
+            ];
+
+        }
+
+
+        if (
+            name.includes("row") ||
+            name.includes("pulldown")
+        ) {
+
+            return [
+
+                makeExercise(
+                    "One-Arm Dumbbell Row",
+                    original.sets,
+                    10,
+                    40,
+                    "Dumbbells"
+                ),
+
+                makeExercise(
+                    "Seated Cable Row",
+                    original.sets,
+                    12,
+                    70,
+                    "Cables"
+                ),
+
+                makeExercise(
+                    "Lat Pulldown",
+                    original.sets,
+                    10,
+                    80,
+                    "Machine"
+                ),
+
+                makeExercise(
+                    "Inverted Row",
+                    original.sets,
+                    10,
+                    0,
+                    "Bodyweight"
+                )
+
+            ];
+
+        }
+
+
+        if (
+            name.includes("curl")
+        ) {
+
+            return [
+
+                makeExercise(
+                    "Dumbbell Biceps Curl",
+                    original.sets,
+                    12,
+                    25,
+                    "Dumbbells"
+                ),
+
+                makeExercise(
+                    "Hammer Curl",
+                    original.sets,
+                    12,
+                    25,
+                    "Dumbbells"
+                ),
+
+                makeExercise(
+                    "Cable Concentration Curl",
+                    original.sets,
+                    12,
+                    35,
+                    "Cables"
+                ),
+
+                makeExercise(
+                    "Resistance Band Curl",
+                    original.sets,
+                    15,
+                    0,
+                    "Bands"
+                )
+
+            ];
+
+        }
+
+
+        if (
+            name.includes("triceps") ||
+            name.includes("pushdown")
+        ) {
+
+            return [
+
+                makeExercise(
+                    "Cable Rope Triceps Pushdown",
+                    original.sets,
+                    12,
+                    40,
+                    "Cables"
+                ),
+
+                makeExercise(
+                    "Dumbbell Triceps Extension",
+                    original.sets,
+                    12,
+                    25,
+                    "Dumbbells"
+                ),
+
+                makeExercise(
+                    "Close-Grip Push-Ups",
+                    original.sets,
+                    12,
+                    0,
+                    "Bodyweight"
+                ),
+
+                makeExercise(
+                    "Bench Dips",
+                    original.sets,
+                    12,
+                    0,
+                    "Bodyweight"
+                )
+
+            ];
+
+        }
+
+
+        if (
+            name.includes("squat") ||
+            name.includes("lunge")
+        ) {
+
+            return [
+
+                makeExercise(
+                    "Bodyweight Squat",
+                    original.sets,
+                    15,
+                    0,
+                    "Bodyweight"
+                ),
+
+                makeExercise(
+                    "Dumbbell Goblet Squat",
+                    original.sets,
+                    12,
+                    35,
+                    "Dumbbells"
+                ),
+
+                makeExercise(
+                    "Alternating Reverse Lunges",
+                    original.sets,
+                    12,
+                    0,
+                    "Bodyweight"
+                ),
+
+                makeExercise(
+                    "Step-Ups",
+                    original.sets,
+                    12,
+                    0,
+                    "Bodyweight"
+                )
+
+            ];
+
+        }
+
+
+        if (
+            name.includes("plank") ||
+            name.includes("core")
+        ) {
+
+            return [
+
+                makeExercise(
+                    "High Plank",
+                    original.sets,
+                    45,
+                    0,
+                    "Bodyweight",
+                    "time",
+                    "sec"
+                ),
+
+                makeExercise(
+                    "Side Plank",
+                    original.sets,
+                    30,
+                    0,
+                    "Bodyweight",
+                    "time",
+                    "sec"
+                ),
+
+                makeExercise(
+                    "Seated Knee Tuck",
+                    original.sets,
+                    15,
+                    0,
+                    "Bodyweight"
+                ),
+
+                makeExercise(
+                    "Mountain Climbers",
+                    original.sets,
+                    20,
+                    0,
+                    "Bodyweight"
+                )
+
+            ];
+
+        }
+
+
+        if (
+            name.includes("walking") ||
+            name.includes("bike") ||
+            name.includes("cardio") ||
+            name.includes("rowing machine")
+        ) {
+
+            return [
+
+                makeExercise(
+                    "Walking",
+                    original.sets,
+                    10,
+                    0,
+                    "Cardio",
+                    "time",
+                    "min"
+                ),
+
+                makeExercise(
+                    "Stationary Bike",
+                    original.sets,
+                    8,
+                    0,
+                    "Cardio",
+                    "time",
+                    "min"
+                ),
+
+                makeExercise(
+                    "Indoor Rowing Machine",
+                    original.sets,
+                    8,
+                    0,
+                    "Cardio",
+                    "time",
+                    "min"
+                ),
+
+                makeExercise(
+                    "March or Jog in Place",
+                    original.sets,
+                    5,
+                    0,
+                    "Bodyweight",
+                    "time",
+                    "min"
+                )
+
+            ];
+
+        }
+
+
+        return [
+
+            makeExercise(
+                "Bodyweight Squat",
+                original.sets,
+                15,
+                0,
+                "Bodyweight"
+            ),
+
+            makeExercise(
+                "Push-Up",
+                original.sets,
+                12,
+                0,
+                "Bodyweight"
+            ),
+
+            makeExercise(
+                "Walking",
+                original.sets,
+                5,
+                0,
+                "Bodyweight",
+                "time",
+                "min"
+            ),
+
+            makeExercise(
+                "Plank",
+                original.sets,
+                30,
+                0,
+                "Bodyweight",
+                "time",
+                "sec"
+            )
+
+        ];
+
+    }
+
+
+
+    const substitutes =
+        chooseSubstitutes();
+
+
+    const options =
+        document.getElementById(
+            "options"
+        );
+
+
+    substitutes.forEach(
+        function(exercise) {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.type =
+                "button";
+
+
+            button.className =
+                "option";
+
+
+            let meta = "";
+
+
+            if (
+                exercise.type ===
+                "time"
+            ) {
+
+                meta =
+                    exercise.sets +
+                    " rounds • " +
+                    exercise.reps +
+                    " " +
+                    exercise.unit;
+
+            }
+            else {
+
+                meta =
+                    exercise.sets +
+                    " × " +
+                    exercise.reps +
+                    " • " +
+                    exercise.equipment;
+
+            }
+
+
+            button.innerHTML =
+
+                "<div class='name'>" +
+                exercise.name +
+                "</div>" +
+
+                "<div class='meta'>" +
+                meta +
+                "</div>" +
+
+                "<div class='reason'>" +
+                "Use this substitute" +
+                "</div>";
+
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    selectExercise(
+                        exercise
+                    );
+
+                }
+            );
+
+
+            options.appendChild(
+                button
+            );
+
+        }
+    );
+
+
+
+    function selectExercise(
+        replacement
+    ) {
+
+        workout =
+            getWorkout();
+
+
+        workout.exercises[index] =
+            replacement;
+
+
+        localStorage.setItem(
+            "arcCurrentWorkout",
+            JSON.stringify(workout)
+        );
+
+
+        localStorage.setItem(
+            "arcCurrentSet",
+            "1"
+        );
+
 
         localStorage.setItem(
             "arcSubstituteExercise",
-            name
+            replacement.name
         );
 
-        document.getElementById("message").textContent =
-            name + " selected.";
 
-        setTimeout(() => {
-            window.location.href = "active-set.html";
-        }, 500);
+        document.getElementById(
+            "message"
+        ).textContent =
+            replacement.name +
+            " selected.";
+
+
+        /*
+         * Immediate navigation is more reliable
+         * on mobile than the old delayed version.
+         */
+
+        window.location.href =
+            "active-set.html";
+
     }
+
 </script>
 
 </body>

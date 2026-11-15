@@ -1,92 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARC - History</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ARC History</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
           rel="stylesheet">
 
     <style>
 
-        * { box-sizing:border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         html, body {
-            margin:0;
-            background:#0e0f10;
-            font-family:"Montserrat", sans-serif;
+            margin: 0;
+            min-height: 100%;
+            background: #0e0f10;
+            font-family: "Montserrat", Arial, sans-serif;
         }
 
         body {
-            display:flex;
-            justify-content:center;
+            display: flex;
+            justify-content: center;
+            color: white;
         }
 
         .app {
-            width:100%;
-            max-width:390px;
-            min-height:100vh;
-            padding:30px 22px 90px;
-            color:white;
+            width: 100%;
+            max-width: 390px;
+            min-height: 100vh;
+            padding: 35px 22px 95px;
         }
 
-        h1 { margin:0; }
+        h1 {
+            margin: 0;
+            font-size: 30px;
+        }
 
         .subtitle {
-            color:#a5a5a7;
-            font-size:13px;
-            margin-top:5px;
+            color: #a5a5a7;
+            font-size: 13px;
+            margin: 5px 0 20px;
         }
 
         .card {
-            margin-top:18px;
-            padding:18px;
-            border-radius:16px;
-            background:#202326;
+            background: #202326;
+            border-radius: 16px;
+            padding: 18px;
+            margin-top: 14px;
         }
 
-        .date {
-            color:#1cfb9e;
-            font-size:12px;
-            font-weight:600;
+        .clickable {
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .clickable:active {
+            transform: scale(.99);
+        }
+
+        .label {
+            color: #1cfb9e;
+            font-size: 12px;
+            font-weight: 700;
         }
 
         .title {
-            margin-top:8px;
-            font-size:18px;
-            font-weight:700;
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 7px;
         }
 
         .meta {
-            color:#a5a5a7;
-            font-size:12px;
-            margin-top:6px;
+            color: #a5a5a7;
+            font-size: 12px;
+            line-height: 1.5;
+            margin-top: 5px;
+        }
+
+        .hint {
+            color: #1cfb9e;
+            font-size: 10px;
+            margin-top: 10px;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.82);
+            padding: 30px 15px;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 390px;
+            margin: 20px auto;
+            background: #202326;
+            border-radius: 18px;
+            padding: 20px;
+        }
+
+        .modal h2 {
+            margin: 0 0 18px;
+        }
+
+        .set-row {
+            background: #2a2d31;
+            border-radius: 12px;
+            padding: 13px;
+            margin-bottom: 10px;
+        }
+
+        .set-name {
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .set-meta {
+            color: #a5a5a7;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .close {
+            width: 100%;
+            height: 50px;
+            border: none;
+            border-radius: 13px;
+            background: #1cfb9e;
+            color: black;
+            font-family: "Montserrat";
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
         }
 
         .bottom-nav {
-            position:fixed;
-            bottom:0;
-            width:100%;
-            max-width:390px;
-            height:64px;
-            background:#111315;
-            display:flex;
-            justify-content:space-around;
-            align-items:center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 390px;
+            height: 64px;
+            background: #111315;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #292c2f;
         }
 
         .bottom-nav a {
-            color:#a5a5a7;
-            text-decoration:none;
-            font-size:11px;
+            color: #a5a5a7;
+            text-decoration: none;
+            font-size: 11px;
         }
 
         .bottom-nav a.active {
-            color:#1cfb9e;
+            color: #1cfb9e;
         }
 
     </style>
+
 </head>
 
 <body>
@@ -94,62 +180,349 @@
 <div class="app">
 
     <h1>Training History</h1>
-    <div class="subtitle">Your recent ARC activity.</div>
 
-    <div class="card">
-        <div class="date">TODAY</div>
-        <div class="title">Upper Body Strength</div>
-        <div class="meta" id="latestSet">
-            Bench Press • Set completed
-        </div>
+    <div class="subtitle">
+        Your recent ARC activity.
     </div>
 
+
+    <div id="workoutCard"
+         class="card clickable"
+         onclick="openWorkoutDetails()">
+
+        <div class="label">
+            TODAY
+        </div>
+
+        <div class="title"
+             id="workoutName">
+            Workout
+        </div>
+
+        <div class="meta"
+             id="workoutSummary">
+            No completed sets yet.
+        </div>
+
+        <div class="hint">
+            Tap to view workout details →
+        </div>
+
+    </div>
+
+
     <div class="card">
-        <div class="date">RECENT</div>
-        <div class="title">Readiness Check</div>
-        <div class="meta" id="readinessHistory">
+
+        <div class="label">
+            RECENT
+        </div>
+
+        <div class="title">
+            Readiness Check
+        </div>
+
+        <div class="meta"
+             id="readinessResult">
             No recent readiness result.
         </div>
+
     </div>
+
 
     <div class="card">
-        <div class="date">PREVIOUS</div>
-        <div class="title">Full Body Training</div>
-        <div class="meta">
-            6 exercises • 48 min
+
+        <div class="label">
+            SKIPPED
         </div>
+
+        <div class="title">
+            Skipped Exercises
+        </div>
+
+        <div class="meta"
+             id="skippedResult">
+            None.
+        </div>
+
     </div>
 
 </div>
 
-<div class="bottom-nav">
-    <a href="home.html">Home</a>
-    <a href="workout.html">Workouts</a>
-    <a href="orin.html">ORIN</a>
-    <a href="history.html" class="active">History</a>
-    <a href="profile.html">Profile</a>
+
+<div id="overlay"
+     class="overlay">
+
+    <div class="modal">
+
+        <h2 id="detailTitle">
+            Workout Details
+        </h2>
+
+        <div id="detailList"></div>
+
+        <button class="close"
+                onclick="closeWorkoutDetails()">
+            Close
+        </button>
+
+    </div>
+
 </div>
+
+
+<div class="bottom-nav">
+
+    <a href="home.html">
+        Home
+    </a>
+
+    <a href="workout.html">
+        Workouts
+    </a>
+
+    <a href="orin.html">
+        ORIN
+    </a>
+
+    <a href="history.html"
+       class="active">
+        History
+    </a>
+
+    <a href="profile.html">
+        Profile
+    </a>
+
+</div>
+
 
 <script>
 
-    const set = localStorage.getItem("arcLastCompletedSet");
+    let completedSets = [];
 
-    if (set) {
-        const s = JSON.parse(set);
 
-        document.getElementById("latestSet").textContent =
-            s.exercise + " • " +
-            s.weight + " lb × " +
-            s.reps + " reps • RPE " +
-            s.rpe;
+    try {
+
+        completedSets =
+            JSON.parse(
+                localStorage.getItem(
+                    "arcCompletedSets"
+                )
+            ) || [];
+
+    }
+    catch {}
+
+
+    let skipped =
+        [];
+
+
+    try {
+
+        skipped =
+            JSON.parse(
+                localStorage.getItem(
+                    "arcSkippedExercises"
+                )
+            ) || [];
+
+    }
+    catch {}
+
+
+
+    if (
+        completedSets.length > 0
+    ) {
+
+        const latest =
+            completedSets[
+            completedSets.length - 1
+                ];
+
+
+        document.getElementById(
+            "workoutName"
+        ).textContent =
+            latest.workout ||
+            "Today's Workout";
+
+
+        const exerciseNames =
+            [
+                ...new Set(
+                    completedSets.map(
+                        set =>
+                            set.exercise
+                    )
+                )
+            ];
+
+
+        document.getElementById(
+            "workoutSummary"
+        ).textContent =
+            completedSets.length +
+            " completed sets • " +
+            exerciseNames.length +
+            " exercises";
+
     }
 
+
+
     const readiness =
-        localStorage.getItem("arcReadinessResult");
+        localStorage.getItem(
+            "arcReadinessResult"
+        );
+
 
     if (readiness) {
-        document.getElementById("readinessHistory").textContent =
-            readiness.replace(/\n/g, " • ");
+
+        document.getElementById(
+            "readinessResult"
+        ).textContent =
+            readiness;
+
+    }
+
+
+
+    if (
+        skipped.length > 0
+    ) {
+
+        document.getElementById(
+            "skippedResult"
+        ).textContent =
+            skipped
+                .map(item => item.exercise)
+                .join(", ");
+
+    }
+
+
+
+    function openWorkoutDetails() {
+
+        const list =
+            document.getElementById(
+                "detailList"
+            );
+
+
+        list.innerHTML =
+            "";
+
+
+        if (
+            completedSets.length === 0
+        ) {
+
+            list.innerHTML =
+                "<div class='meta'>" +
+                "No completed sets yet." +
+                "</div>";
+
+        }
+        else {
+
+            const workoutName =
+                completedSets[
+                completedSets.length - 1
+                    ].workout ||
+                "Workout";
+
+
+            document.getElementById(
+                "detailTitle"
+            ).textContent =
+                workoutName;
+
+
+            completedSets.forEach(
+                function(set) {
+
+                    const row =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    row.className =
+                        "set-row";
+
+
+                    let performance =
+                        "";
+
+
+                    if (
+                        Number(set.weight) > 0
+                    ) {
+
+                        performance =
+                            set.weight +
+                            " lb × " +
+                            set.reps;
+
+                    }
+                    else {
+
+                        performance =
+                            set.reps +
+                            " reps / target";
+
+                    }
+
+
+                    row.innerHTML =
+
+                        "<div class='set-name'>" +
+                        set.exercise +
+                        " — Set " +
+                        set.set +
+                        "</div>" +
+
+                        "<div class='set-meta'>" +
+                        performance +
+                        " • Effort " +
+                        set.effort +
+                        "/10 • " +
+                        set.repsLeft +
+                        " reps left" +
+                        "</div>";
+
+
+                    list.appendChild(
+                        row
+                    );
+
+                }
+            );
+
+        }
+
+
+        document.getElementById(
+            "overlay"
+        ).classList.add(
+            "show"
+        );
+
+    }
+
+
+
+    function closeWorkoutDetails() {
+
+        document.getElementById(
+            "overlay"
+        ).classList.remove(
+            "show"
+        );
+
     }
 
 </script>

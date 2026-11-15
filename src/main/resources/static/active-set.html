@@ -15,7 +15,7 @@
             margin: 0;
             min-height: 100%;
             background: #0e0f10;
-            font-family: "Montserrat";
+            font-family: "Montserrat", Arial, sans-serif;
         }
 
         body {
@@ -106,6 +106,7 @@
             font-family: "Montserrat";
             font-weight: 700;
             cursor: pointer;
+            touch-action: manipulation;
         }
 
         .complete {
@@ -121,6 +122,15 @@
             height: 48px;
             background: #2a2d31;
             color: white;
+            border-radius: 14px;
+            margin-top: 12px;
+        }
+
+        .skip {
+            height: 48px;
+            background: transparent;
+            color: #ffba66;
+            border: 1px solid #665032;
             border-radius: 14px;
             margin-top: 12px;
         }
@@ -156,28 +166,6 @@
             font-size: 12px;
             margin-top: 16px;
         }
-
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            max-width: 390px;
-            height: 64px;
-            background: #111315;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-        .bottom-nav a {
-            color: #a5a5a7;
-            text-decoration: none;
-            font-size: 11px;
-        }
-
-        .bottom-nav a.active {
-            color: #1cfb9e;
-        }
     </style>
 </head>
 
@@ -210,52 +198,64 @@
         <div class="grid">
 
             <div>
+
                 <label id="weightLabel">
                     Weight
                 </label>
 
                 <input id="weight"
                        type="number">
+
             </div>
 
 
             <div>
+
                 <label id="repsLabel">
                     Reps
                 </label>
 
                 <input id="reps"
                        type="number">
+
             </div>
 
 
             <div>
+
                 <label>
                     How hard was this set?
                 </label>
 
                 <select id="effort">
+
                     <option value="6">Easy</option>
                     <option value="7">Moderate</option>
                     <option value="8" selected>Hard</option>
                     <option value="9">Very Hard</option>
                     <option value="10">Max Effort</option>
+
                 </select>
+
             </div>
 
 
             <div>
+
                 <label>
                     How many reps could you still do?
                 </label>
 
                 <select id="repsLeft">
+
                     <option value="0">0</option>
                     <option value="1">1</option>
                     <option value="2" selected>2</option>
                     <option value="3">3</option>
                     <option value="4+">4+</option>
+
                 </select>
+
             </div>
 
         </div>
@@ -268,8 +268,14 @@
 
 
         <button class="secondary"
-                onclick="window.location.href='substitute.html'">
+                onclick="openSubstitute()">
             Substitute Exercise
+        </button>
+
+
+        <button class="skip"
+                onclick="skipExercise()">
+            Skip Exercise
         </button>
 
     </div>
@@ -296,64 +302,91 @@
 </div>
 
 
-<div class="bottom-nav">
-    <a href="home.html">Home</a>
-    <a href="workout.html" class="active">Workouts</a>
-    <a href="orin.html">ORIN</a>
-    <a href="history.html">History</a>
-    <a href="profile.html">Profile</a>
-</div>
-
-
 <script>
 
-    let workout;
+    function getWorkout() {
 
-    try {
-        workout =
-            JSON.parse(
-                localStorage.getItem("arcCurrentWorkout")
+        try {
+
+            return JSON.parse(
+                localStorage.getItem(
+                    "arcCurrentWorkout"
+                )
             );
-    } catch {
-        workout = null;
+
+        }
+        catch {
+
+            return null;
+
+        }
+
     }
 
 
-    if (!workout || !workout.exercises) {
+    let workout =
+        getWorkout();
 
-        workout = {
-            title: "Balanced Full Body",
-            exercises: [
-                { name: "Bodyweight Squat", sets: 3, reps: 12, weight: 0 },
-                { name: "Push-Ups", sets: 3, reps: 10, weight: 0 },
-                { name: "Walking", sets: 3, reps: 10, weight: 0, timed: true }
-            ]
-        };
+
+    if (
+        !workout ||
+        !Array.isArray(workout.exercises) ||
+        workout.exercises.length === 0
+    ) {
+
+        window.location.href =
+            "workout.html";
 
     }
 
 
     let exerciseIndex =
         Number(
-            localStorage.getItem("arcExerciseIndex")
+            localStorage.getItem(
+                "arcExerciseIndex"
+            )
         ) || 0;
+
 
     let currentSet =
         Number(
-            localStorage.getItem("arcCurrentSet")
+            localStorage.getItem(
+                "arcCurrentSet"
+            )
         ) || 1;
+
+
+
+    function currentExercise() {
+
+        return workout.exercises[
+            exerciseIndex
+            ];
+
+    }
+
 
 
     function loadExercise() {
 
-        if (exerciseIndex >= workout.exercises.length) {
+        workout =
+            getWorkout();
+
+
+        if (
+            exerciseIndex >=
+            workout.exercises.length
+        ) {
+
             finishWorkout();
+
             return;
+
         }
 
 
         const exercise =
-            workout.exercises[exerciseIndex];
+            currentExercise();
 
 
         document.getElementById(
@@ -386,17 +419,20 @@
         document.getElementById(
             "reps"
         ).value =
-            exercise.reps;
+            exercise.reps || 0;
 
 
-        if (exercise.timed) {
+        if (exercise.type === "time") {
 
             document.getElementById(
                 "repsLabel"
             ).textContent =
-                "Time / target";
+                exercise.unit === "min"
+                    ? "Minutes"
+                    : "Seconds";
 
-        } else {
+        }
+        else {
 
             document.getElementById(
                 "repsLabel"
@@ -406,34 +442,27 @@
         }
 
 
-        if ((exercise.weight || 0) === 0) {
-
-            document.getElementById(
-                "weightLabel"
-            ).textContent =
-                "Added weight (optional)";
-
-        } else {
-
-            document.getElementById(
-                "weightLabel"
-            ).textContent =
-                "Weight";
-
-        }
+        document.getElementById(
+            "weightLabel"
+        ).textContent =
+            exercise.weight > 0
+                ? "Weight"
+                : "Added weight";
 
 
         document.getElementById(
             "message"
-        ).textContent = "";
+        ).textContent =
+            "";
 
     }
+
 
 
     function completeSet() {
 
         const exercise =
-            workout.exercises[exerciseIndex];
+            currentExercise();
 
 
         const completed = {
@@ -465,24 +494,33 @@
             repsLeft:
             document.getElementById(
                 "repsLeft"
-            ).value
+            ).value,
+
+            timestamp:
+                new Date().toISOString()
 
         };
 
 
         let history = [];
 
+
         try {
+
             history =
                 JSON.parse(
                     localStorage.getItem(
                         "arcCompletedSets"
                     )
                 ) || [];
-        } catch {}
+
+        }
+        catch {}
 
 
-        history.push(completed);
+        history.push(
+            completed
+        );
 
 
         localStorage.setItem(
@@ -497,9 +535,13 @@
         );
 
 
-        if (currentSet < exercise.sets) {
+        if (
+            currentSet <
+            exercise.sets
+        ) {
 
             currentSet++;
+
 
             localStorage.setItem(
                 "arcCurrentSet",
@@ -507,13 +549,7 @@
             );
 
 
-            document.getElementById(
-                "setTitle"
-            ).textContent =
-                "Set " +
-                currentSet +
-                " of " +
-                exercise.sets;
+            loadExercise();
 
 
             document.getElementById(
@@ -521,11 +557,75 @@
             ).textContent =
                 "Set complete. Next set ready.";
 
+
             return;
+
         }
 
 
+        nextExercise(
+            "Exercise complete. Moving to the next exercise."
+        );
+
+    }
+
+
+
+    function skipExercise() {
+
+        const exercise =
+            currentExercise();
+
+
+        let skipped = [];
+
+
+        try {
+
+            skipped =
+                JSON.parse(
+                    localStorage.getItem(
+                        "arcSkippedExercises"
+                    )
+                ) || [];
+
+        }
+        catch {}
+
+
+        skipped.push({
+
+            workout:
+            workout.title,
+
+            exercise:
+            exercise.name,
+
+            timestamp:
+                new Date().toISOString()
+
+        });
+
+
+        localStorage.setItem(
+            "arcSkippedExercises",
+            JSON.stringify(skipped)
+        );
+
+
+        nextExercise(
+            exercise.name +
+            " skipped."
+        );
+
+    }
+
+
+
+    function nextExercise(message) {
+
         exerciseIndex++;
+
         currentSet = 1;
 
 
@@ -534,9 +634,15 @@
             exerciseIndex
         );
 
+
         localStorage.setItem(
             "arcCurrentSet",
-            currentSet
+            "1"
+        );
+
+
+        localStorage.removeItem(
+            "arcSubstituteExercise"
         );
 
 
@@ -546,22 +652,47 @@
         ) {
 
             finishWorkout();
+
             return;
+
         }
+
+
+        loadExercise();
 
 
         document.getElementById(
             "message"
         ).textContent =
-            "Exercise complete. Moving to the next exercise.";
-
-
-        setTimeout(
-            loadExercise,
-            450
-        );
+            message;
 
     }
+
+
+
+    function openSubstitute() {
+
+        const exercise =
+            currentExercise();
+
+
+        localStorage.setItem(
+            "arcSubstituteIndex",
+            String(exerciseIndex)
+        );
+
+
+        localStorage.setItem(
+            "arcSubstituteOriginal",
+            exercise.name
+        );
+
+
+        window.location.href =
+            "substitute.html";
+
+    }
+
 
 
     function finishWorkout() {
@@ -572,20 +703,11 @@
         );
 
 
-        document.getElementById(
-            "message"
-        ).textContent =
-            "Workout complete. Nice work.";
-
-
-        setTimeout(() => {
-
-            window.location.href =
-                "history.html";
-
-        }, 800);
+        window.location.href =
+            "history.html";
 
     }
+
 
 
     loadExercise();
